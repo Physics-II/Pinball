@@ -3,7 +3,7 @@
 #include "Globals.h"
 
 class Module;
-
+class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
@@ -15,7 +15,7 @@ class ModulePhysics;
 class Application
 {
 public:
-	
+	ModuleRender* renderer;
 	ModuleWindow* window;
 	ModuleTextures* textures;
 	ModuleInput* input;

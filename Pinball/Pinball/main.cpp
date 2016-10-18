@@ -19,7 +19,7 @@ enum main_states
 
 int main()
 {
-	main_states state = MAIN_CREATION;
+	
 
 	LOG("Starting game '%s'...", TITLE);
 

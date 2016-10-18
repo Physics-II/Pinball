@@ -25,7 +25,7 @@ public:
 	PhysBody* sensor;
 	bool sensed;
 
-	SDL_Texture* circle;
+	
 	uint bonus_fx;
 	p2Point<int> ray;
 	bool ray_on;
