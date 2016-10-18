@@ -81,7 +81,7 @@ public:
 		p2List_item<tdata>*   p_data_item;
 		p_data_item = new p2List_item < tdata >(item);
 
-		if (start == NULL)
+		if(start == NULL)
 		{
 			start = end = p_data_item;
 		}
@@ -104,10 +104,10 @@ public:
 		unsigned int i = 0;
 		p2List_item<tdata>*   p_data = start;
 
-		for (unsigned int i = 0; i < index && p_data != NULL; ++i)
+		for(unsigned int i = 0; i < index && p_data != NULL; ++i)
 			p_data = p_data->next;
 
-		if (p_data != NULL)
+		if(p_data != NULL)
 		{
 			ret = true;
 			data = p_data->data;
@@ -121,17 +121,17 @@ public:
 	*/
 	bool del(p2List_item<tdata>* item)
 	{
-		if (item == NULL)
+		if(item == NULL)
 		{
 			return (false);
 		}
 
 		// Now reconstruct the list
-		if (item->prev != NULL)
+		if(item->prev != NULL)
 		{
 			item->prev->next = item->next;
 
-			if (item->next != NULL)
+			if(item->next != NULL)
 			{
 				item->next->prev = item->prev;
 			}
@@ -142,7 +142,7 @@ public:
 		}
 		else
 		{
-			if (item->next)
+			if(item->next)
 			{
 				item->next->prev = NULL;
 				start = item->next;
@@ -167,7 +167,7 @@ public:
 		p2List_item<tdata>*   p_next;
 		p_data = start;
 
-		while (p_data != NULL)
+		while(p_data != NULL)
 		{
 			p_next = p_data->next;
 			delete (p_data);
@@ -186,9 +186,9 @@ public:
 		p2List_item<tdata>* tmp = start;
 		int index = 0;
 
-		while (tmp != NULL)
+		while(tmp != NULL)
 		{
-			if (tmp->data == data)
+			if(tmp->data == data)
 				return(index);
 
 			++index;
@@ -205,9 +205,9 @@ public:
 	{
 		p2List_item<tdata>* tmp = start;
 
-		while (tmp != NULL)
+		while(tmp != NULL)
 		{
-			if (tmp->data == data)
+			if(tmp->data == data)
 				return(tmp);
 			tmp = tmp->next;
 		}

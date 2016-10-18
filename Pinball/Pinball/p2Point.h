@@ -1,3 +1,7 @@
+// ----------------------------------------------------
+// Point class    -----------
+// ----------------------------------------------------
+
 #ifndef __P2POINT_H__
 #define __P2POINT_H__
 
@@ -92,7 +96,7 @@ public:
 		TYPE fx = x - v.x;
 		TYPE fy = y - v.y;
 
-		return (TYPE)sqrtf(float((fx*fx) + (fy*fy)));
+		return (TYPE) sqrtf(float((fx*fx) + (fy*fy)));
 	}
 };
 
@@ -110,13 +114,13 @@ public:
 	p2Vector(const p2Point& p) : p2Point(p)
 	{}
 
-	p2Vector(TYPE x, TYPE y) : p2Point(x, y)
+	p2Vector(TYPE x, TYPE y) : p2Point(x,y)
 	{}
 
 	void Normalize()
 	{
 		float m = x * x + y * y;
-		if (m > 0.0f)
+		if(m > 0.0f)
 		{
 			float inv_m = 1 / sqrtf(m);
 			x *= inv_m;
@@ -173,4 +177,4 @@ public:
 typedef p2Vector<int> iVector;
 typedef p2Vector<float> fVector;
 
-#endif
+#endif // __P2POINT_H__

@@ -1,12 +1,10 @@
-#include <iostream>
+#include <stdlib.h>
 #include "Application.h"
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
-
-using namespace std;
 
 enum main_states
 {
@@ -17,10 +15,8 @@ enum main_states
 	MAIN_EXIT
 };
 
-int main()
+int main(int argc, char ** argv)
 {
-	
-
 	LOG("Starting game '%s'...", TITLE);
 
 	int main_return = EXIT_FAILURE;
@@ -67,7 +63,7 @@ int main()
 			if (update_return == UPDATE_STOP)
 				state = MAIN_FINISH;
 		}
-		break;
+			break;
 
 		case MAIN_FINISH:
 
@@ -88,19 +84,5 @@ int main()
 
 	delete App;
 	LOG("Exiting game '%s'...\n", TITLE);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	return 0;
+	return main_return;
 }

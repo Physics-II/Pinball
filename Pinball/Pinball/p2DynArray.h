@@ -1,3 +1,7 @@
+// ----------------------------------------------------
+// Array that resizes dynamically   -------------------
+// ----------------------------------------------------
+
 #ifndef __P2DYNARRAY_H__
 #define __P2DYNARRAY_H__
 
@@ -31,7 +35,7 @@ public:
 	{
 		Alloc(array.num_elements);
 
-		for (unsigned int i = 0; i < array.num_elements; ++i)
+		for(unsigned int i = 0; i < array.num_elements; ++i)
 			PushBack(array.data[i]);
 	}
 
@@ -58,7 +62,7 @@ public:
 	{
 		Alloc(other.num_elements);
 
-		for (unsigned int i = 0; i < other.num_elements; ++i)
+		for(unsigned int i = 0; i < other.num_elements; ++i)
 			PushBack(other.data[i]);
 
 		return *this;
@@ -67,7 +71,7 @@ public:
 	// Data Management
 	void PushBack(const VALUE& element)
 	{
-		if (num_elements >= mem_capacity)
+		if(num_elements >= mem_capacity)
 		{
 			Alloc(mem_capacity + DYN_ARRAY_BLOCK_SIZE);
 		}
@@ -77,7 +81,7 @@ public:
 
 	bool Pop(VALUE& value)
 	{
-		if (num_elements > 0)
+		if(num_elements > 0)
 		{
 			value = data[--num_elements];
 			return true;
@@ -92,19 +96,19 @@ public:
 
 	bool Insert(const VALUE& element, unsigned int position)
 	{
-		if (position > num_elements)
+		if(position > num_elements)
 			return false;
 
-		if (position == num_elements)
+		if(position == num_elements)
 		{
 			PushBack(element);
 			return true;
 		}
 
-		if (num_elements + 1 > mem_capacity)
+		if(num_elements + 1 > mem_capacity)
 			Alloc(mem_capacity + DYN_ARRAY_BLOCK_SIZE);
 
-		for (unsigned int i = num_elements; i > position; --i)
+		for(unsigned int i = num_elements; i > position; --i)
 		{
 			data[i] = data[i - 1];
 		}
@@ -118,10 +122,10 @@ public:
 	VALUE* At(unsigned int index)
 	{
 		VALUE* result = NULL;
-
-		if (index < num_elements)
+		
+		if(index < num_elements)
 			return result = &data[index];
-
+		
 		return result;
 	}
 
@@ -129,7 +133,7 @@ public:
 	{
 		VALUE* result = NULL;
 
-		if (index < num_elements)
+		if(index < num_elements)
 			return result = &data[index];
 
 		return result;
@@ -147,7 +151,7 @@ public:
 	}
 
 private:
-
+	
 	// Private Utils
 	void Alloc(unsigned int mem)
 	{
@@ -156,12 +160,12 @@ private:
 		mem_capacity = mem;
 		data = new VALUE[mem_capacity];
 
-		if (num_elements > mem_capacity)
+		if(num_elements > mem_capacity)
 			num_elements = mem_capacity;
 
-		if (tmp != NULL)
+		if(tmp != NULL)
 		{
-			for (unsigned int i = 0; i < num_elements; ++i)
+			for(unsigned int i = 0; i < num_elements; ++i)
 				data[i] = tmp[i];
 
 			delete[] tmp;
@@ -169,4 +173,4 @@ private:
 	}
 };
 
-#endif
+#endif // __P2DYNARRAY_H__

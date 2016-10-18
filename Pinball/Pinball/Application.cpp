@@ -1,10 +1,11 @@
+
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
-
-
+#include "ModuleAudio.h"
+#include "ModulePlayer.h"
 #include "ModulePhysics.h"
 #include "ModuleSceneIntro.h"
 
@@ -16,6 +17,8 @@ Application::Application()
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
+	audio = new ModuleAudio(this, true);
+	player = new ModulePlayer(this);
 	scene_intro = new ModuleSceneIntro(this);
 	physics = new ModulePhysics(this);
 
@@ -29,20 +32,20 @@ Application::Application()
 	AddModule(renderer);
 	AddModule(textures);
 	AddModule(input);
-
-
+	AddModule(audio);
+	
 	// Scenes
 	AddModule(scene_intro);
-
 	
-
+	// Player
+	AddModule(player);
 }
 
 Application::~Application()
 {
 	p2List_item<Module*>* item = list_modules.getLast();
 
-	while (item != NULL)
+	while(item != NULL)
 	{
 		delete item->data;
 		item = item->prev;
@@ -56,7 +59,7 @@ bool Application::Init()
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
 
-	while (item != NULL && ret == true)
+	while(item != NULL && ret == true)
 	{
 		ret = item->data->Init();
 		item = item->next;
@@ -66,13 +69,13 @@ bool Application::Init()
 	LOG("Application Start --------------");
 	item = list_modules.getFirst();
 
-	while (item != NULL && ret == true)
+	while(item != NULL && ret == true)
 	{
-		if (item->data->IsEnabled())
+		if(item->data->IsEnabled())
 			ret = item->data->Start();
 		item = item->next;
 	}
-
+	
 	return ret;
 }
 
@@ -82,27 +85,27 @@ update_status Application::Update()
 	update_status ret = UPDATE_CONTINUE;
 	p2List_item<Module*>* item = list_modules.getFirst();
 
-	while (item != NULL && ret == UPDATE_CONTINUE)
+	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled())
+		if(item->data->IsEnabled())
 			ret = item->data->PreUpdate();
 		item = item->next;
 	}
 
 	item = list_modules.getFirst();
 
-	while (item != NULL && ret == UPDATE_CONTINUE)
+	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled())
-			ret = item->data->Update();
+		if(item->data->IsEnabled())
+  			ret = item->data->Update();
 		item = item->next;
 	}
 
 	item = list_modules.getFirst();
 
-	while (item != NULL && ret == UPDATE_CONTINUE)
+	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		if (item->data->IsEnabled())
+		if(item->data->IsEnabled())
 			ret = item->data->PostUpdate();
 		item = item->next;
 	}
@@ -115,7 +118,7 @@ bool Application::CleanUp()
 	bool ret = true;
 	p2List_item<Module*>* item = list_modules.getLast();
 
-	while (item != NULL && ret == true)
+	while(item != NULL && ret == true)
 	{
 		ret = item->data->CleanUp();
 		item = item->prev;

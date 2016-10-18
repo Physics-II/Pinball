@@ -1,4 +1,5 @@
 #pragma once
+
 #include "p2List.h"
 #include "Globals.h"
 
@@ -7,8 +8,8 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
-
-
+class ModuleAudio;
+class ModulePlayer;
 class ModuleSceneIntro;
 class ModulePhysics;
 
@@ -19,6 +20,8 @@ public:
 	ModuleWindow* window;
 	ModuleTextures* textures;
 	ModuleInput* input;
+	ModuleAudio* audio;
+	ModulePlayer* player;
 	ModuleSceneIntro* scene_intro;
 	ModulePhysics* physics;
 
