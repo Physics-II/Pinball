@@ -3,8 +3,10 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModulePhysics.h"
+#include "ModuleSceneIntro.h"
 #include "p2Point.h"
 #include "math.h"
+#include "Box2D\Box2D\Box2D.h"
 
 #ifdef _DEBUG
 #pragma comment( lib, "Box2D/libx86/Debug/Box2D.lib" )
@@ -37,7 +39,102 @@ bool ModulePhysics::Start()
 	ground = world->CreateBody(&bd);
 
 	// big static circle as "ground" in the middle of the screen
+	//---Set background chain here---
+
+	// Pivot 0, 0
+	int background_ch[138] = {
+		222, 554,
+		234, 533,
+		251, 522,
+		276, 515,
+		307, 504,
+		327, 495,
+		345, 486,
+		345, 323,
+		323, 312,
+		307, 296,
+		318, 277,
+		336, 259,
+		345, 250,
+		345, 165,
+		322, 110,
+		287, 69,
+		250, 48,
+		211, 37,
+		167, 38,
+		138, 44,
+		107, 59,
+		77, 84,
+		51, 113,
+		42, 133,
+		35, 130,
+		48, 106,
+		73, 77,
+		101, 54,
+		133, 38,
+		162, 29,
+		212, 30,
+		252, 40,
+		273, 54,
+		289, 61,
+		325, 103,
+		350, 159,
+		350, 479,
+		377, 479,
+		377, 175,
+		358, 117,
+		326, 66,
+		291, 38,
+		246, 17,
+		206, 9,
+		154, 10,
+		120, 19,
+		73, 44,
+		36, 74,
+		16, 103,
+		5, 135,
+		14, 157,
+		19, 172,
+		9, 194,
+		10, 232,
+		23, 256,
+		50, 274,
+		64, 293,
+		43, 316,
+		30, 325,
+		30, 493,
+		71, 508,
+		119, 522,
+		143, 536,
+		147, 553,
+		-1, 553,
+		-1, 0,
+		551, 0,
+		552, 553,
+		235, 552
+	};
+
+	b2Vec2 vs[138];
+	for (int i = 0, j = 1, k = 0; i < 69; i += 2, j += 2, ++k)
+	{
+		vs[k].Set(PIXEL_TO_METERS(background_ch[i]), PIXEL_TO_METERS(background_ch[j]));
+	}
+
+	b2BodyDef body;
+	body.type = b2_staticBody;
+	body.position.Set(0, 0);
+
+	b2Body* background = world->CreateBody(&body);
+
+	//b2ChainShape chain;
+	//chain.CreateLoop(vs, 138);
+	//b2FixtureDef fixture;
+	//fixture.shape = &chain;
+	//fixture.density = 1.0f;
+
+	//background->CreateFixture(&fixture);
 	
+	//App->physics->CreateChain(0, 0, background_ch, 138);
 
 	return true;
 }
