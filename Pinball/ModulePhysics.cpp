@@ -40,6 +40,7 @@ bool ModulePhysics::Start()
 
 	// big static circle as "ground" in the middle of the screen
 	//---Set background chain here---
+	//MUST BE STATIC!!
 
 	// Pivot 0, 0
 	int background_ch[138] = {
@@ -113,28 +114,8 @@ bool ModulePhysics::Start()
 		552, 553,
 		235, 552
 	};
-
-	b2Vec2 vs[138];
-	for (int i = 0, j = 1, k = 0; i < 69; i += 2, j += 2, ++k)
-	{
-		vs[k].Set(PIXEL_TO_METERS(background_ch[i]), PIXEL_TO_METERS(background_ch[j]));
-	}
-
-	b2BodyDef body;
-	body.type = b2_staticBody;
-	body.position.Set(0, 0);
-
-	b2Body* background = world->CreateBody(&body);
-
-	//b2ChainShape chain;
-	//chain.CreateLoop(vs, 138);
-	//b2FixtureDef fixture;
-	//fixture.shape = &chain;
-	//fixture.density = 1.0f;
-
-	//background->CreateFixture(&fixture);
 	
-	//App->physics->CreateChain(0, 0, background_ch, 138);
+	App->physics->CreateStaticChain(0, 0, background_ch, 138);
 
 	return true;
 }
@@ -255,6 +236,41 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
 
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
+
+	b->CreateFixture(&fixture);
+
+	delete p;
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = pbody->height = 0;
+
+	return pbody;
+}
+
+PhysBody* ModulePhysics::CreateStaticChain(int x, int y, int* points, int size)
+{
+	b2BodyDef body;
+	body.type = b2_staticBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	b2Body* b = world->CreateBody(&body);
+
+	b2ChainShape shape;
+	b2Vec2* p = new b2Vec2[size / 2];
+
+	for (uint i = 0; i < size / 2; ++i)
+	{
+		p[i].x = PIXEL_TO_METERS(points[i * 2 + 0]);
+		p[i].y = PIXEL_TO_METERS(points[i * 2 + 1]);
+	}
+
+	shape.CreateLoop(p, size / 2);
+
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+	fixture.density = 1.0f;
 
 	b->CreateFixture(&fixture);
 

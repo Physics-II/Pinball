@@ -24,12 +24,13 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-	map = App->textures->Load("Sprites/Empty_map_PNG.png");
 	circle = App->textures->Load("pinball/wheel.png"); 
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
+	map = App->textures->Load("Sprites/Empty_map_PNG.png");
+	chain = App->textures->Load("Sprites/Background_chain_txt_PNG.png");
 
 	return ret;
 }
@@ -46,6 +47,7 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 	App->renderer->Blit(map, 0, 0);
+	App->renderer->Blit(chain, 0, 0);
 
 	//// Pivot 0, 0
 	//int background_ch[138] = {
