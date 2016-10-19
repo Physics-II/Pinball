@@ -53,6 +53,8 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(chain, 0, 0);
 	App->renderer->Blit(map, 0, 0);
 
+
+
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		ray_on = !ray_on;
