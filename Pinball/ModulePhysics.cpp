@@ -353,8 +353,8 @@ update_status ModulePhysics::PostUpdate()
 	if (!debug)
 		return UPDATE_CONTINUE;
 
-	bool hit;
-	b2Body* clicked;
+	bool hit = false;
+	b2Body* clicked = nullptr;
 	b2Vec2 pos, pos2;
 
 	// Bonus code: this will iterate all objects in the world and draw the circles
@@ -433,14 +433,19 @@ update_status ModulePhysics::PostUpdate()
 				pos.x = PIXEL_TO_METERS(App->input->GetMouseX());
 				pos.y = PIXEL_TO_METERS(App->input->GetMouseY());
 
-				hit = f->TestPoint(pos);
+				if (f->TestPoint(pos))
+				{
+					hit = true;
+					clicked = f->GetBody();
+				}
+			}
+		}
+	}
 			
 				b2MouseJointDef def;
 
 				if (hit)
 				{
-					clicked = f->GetBody();
-
 					def.bodyA = ground;
 					def.bodyB = clicked;
 					def.target = pos;
@@ -451,21 +456,18 @@ update_status ModulePhysics::PostUpdate()
 					mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
 				}
 
-				if (mouse_joint && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 				{
 					mouse_joint->SetTarget({ PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()) });
-					App->renderer->DrawLine((App->input->GetMouseX()), (App->input->GetMouseY()), METERS_TO_PIXELS(mouse_joint->GetAnchorB().x), METERS_TO_PIXELS(mouse_joint->GetAnchorB().y), 255, 0, 0);
+					App->renderer->DrawLine((App->input->GetMouseX()), (App->input->GetMouseY()), METERS_TO_PIXELS(mouse_joint->GetAnchorB().x), METERS_TO_PIXELS(mouse_joint->GetAnchorB().y), 125, 0, 125);
 
 				}
 
-				if (mouse_joint && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
 				{
 					world->DestroyJoint(mouse_joint);
 					mouse_joint = nullptr;
-				}
-			}
-		} //if
-	} //fixture for
+				} //fixture for
 
 	return UPDATE_CONTINUE;
 }
