@@ -366,14 +366,14 @@ update_status ModulePhysics::PostUpdate()
 
 						mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
 
-						while (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+						if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 						{
-							while (1)
+							while (App->input->GetMouseButton(SDL_BUTTON_LEFT) != KEY_UP)
 							{
-								pos2.x = PIXEL_TO_METERS(App->input->GetMouseX());
-								pos2.y = PIXEL_TO_METERS(App->input->GetMouseY());
-								def.target = pos2;
-								//App->renderer->DrawLine(pos.x, pos.y, pos2.x, pos2.y, 255, 0, 0);
+								pos2.x = mouse_joint->GetTarget().x;
+								pos2.y = mouse_joint->GetTarget().y;
+								mouse_joint->SetTarget(pos2);
+								App->renderer->DrawLine(PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()), mouse_joint->GetAnchorA().x, mouse_joint->GetAnchorB().y, 255, 0, 0);
 
 								if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
 								{
@@ -385,7 +385,9 @@ update_status ModulePhysics::PostUpdate()
 
 					}
 				}
-			}
+			} //if ends
+
+
 		}
 	}
 
