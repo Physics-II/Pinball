@@ -24,13 +24,13 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-	circle = App->textures->Load("pinball/wheel.png"); 
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
 	map = App->textures->Load("Sprites/Empty_map_PNG.png");
 	chain = App->textures->Load("Sprites/Background_chain_txt_PNG.png");
+	circle = App->textures->Load("Sprites/Ball.png"); 
 
 	return ret;
 }
@@ -49,81 +49,6 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(map, 0, 0);
 	App->renderer->Blit(chain, 0, 0);
 
-	//// Pivot 0, 0
-	//int background_ch[138] = {
-	//	222, 554,
-	//	234, 533,
-	//	251, 522,
-	//	276, 515,
-	//	307, 504,
-	//	327, 495,
-	//	345, 486,
-	//	345, 323,
-	//	323, 312,
-	//	307, 296,
-	//	318, 277,
-	//	336, 259,
-	//	345, 250,
-	//	345, 165,
-	//	322, 110,
-	//	287, 69,
-	//	250, 48,
-	//	211, 37,
-	//	167, 38,
-	//	138, 44,
-	//	107, 59,
-	//	77, 84,
-	//	51, 113,
-	//	42, 133,
-	//	35, 130,
-	//	48, 106,
-	//	73, 77,
-	//	101, 54,
-	//	133, 38,
-	//	162, 29,
-	//	212, 30,
-	//	252, 40,
-	//	273, 54,
-	//	289, 61,
-	//	325, 103,
-	//	350, 159,
-	//	350, 479,
-	//	377, 479,
-	//	377, 175,
-	//	358, 117,
-	//	326, 66,
-	//	291, 38,
-	//	246, 17,
-	//	206, 9,
-	//	154, 10,
-	//	120, 19,
-	//	73, 44,
-	//	36, 74,
-	//	16, 103,
-	//	5, 135,
-	//	14, 157,
-	//	19, 172,
-	//	9, 194,
-	//	10, 232,
-	//	23, 256,
-	//	50, 274,
-	//	64, 293,
-	//	43, 316,
-	//	30, 325,
-	//	30, 493,
-	//	71, 508,
-	//	119, 522,
-	//	143, 536,
-	//	147, 553,
-	//	-1, 553,
-	//	-1, 0,
-	//	551, 0,
-	//	552, 553,
-	//	235, 552
-	//};
-
-	//chains.add(App->physics->CreateChain(0, 0, background_ch, 138));
-
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		ray_on = !ray_on;
@@ -133,7 +58,7 @@ update_status ModuleSceneIntro::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25));
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 8));
 		circles.getLast()->data->listener = this;
 	}
 
