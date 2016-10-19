@@ -24,13 +24,10 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
+
 	map = App->textures->Load("Game/Sprites/Empty_map_PNG.png");
 
-	
-	
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
-
-	chain = App->textures->Load("Game/Sprites/Background_chain_txt_PNG.png");
 
 	circle = App->textures->Load("Sprites/Ball.png"); 
 
@@ -49,10 +46,7 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 	
-	
-	App->renderer->Blit(chain, 0, 0);
 	App->renderer->Blit(map, 0, 0);
-
 
 
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -117,14 +111,6 @@ update_status ModuleSceneIntro::Update()
 	}
 
 	c = chains.getFirst();
-
-	while (c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(chain, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
 
 	// ray -----------------
 	if(ray_on == true)
