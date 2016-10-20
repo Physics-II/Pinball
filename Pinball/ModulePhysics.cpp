@@ -39,7 +39,6 @@ bool ModulePhysics::Start()
 	b2BodyDef bd;
 	ground = world->CreateBody(&bd);
 
-	// big static circle as "ground" in the middle of the screen
 	//---Set background chain here---
 	//MUST BE STATIC!!
 
@@ -194,12 +193,42 @@ bool ModulePhysics::Start()
 		78, 141
 	};
 
+	// Pivot 0, 0
+	int down_left[20] = {
+		105, 449,
+		113, 447,
+		126, 458,
+		160, 488,
+		161, 493,
+		156, 497,
+		150, 494,
+		114, 471,
+		101, 460,
+		101, 454
+	};
+
+	// Pivot 0, 0
+	int down_right[20] = {
+		262, 448,
+		242, 465,
+		215, 488,
+		215, 493,
+		218, 496,
+		224, 496,
+		252, 477,
+		273, 462,
+		275, 456,
+		271, 450
+	};
+
 	App->physics->CreateStaticChain(0, 0, background_ch, 138);
 	App->physics->CreateStaticChain(0, 0, bar_1, 20);
 	App->physics->CreateStaticChain(0, 0, bar_2, 20);
 	App->physics->CreateStaticChain(0, 0, triangle_1, 20);
 	App->physics->CreateStaticChain(0, 0, triangle_2, 16);
 	App->physics->CreateStaticChain(0, 0, ovni, 44);
+	App->physics->CreateStaticChain(0, 0, down_left, 20);
+	App->physics->CreateStaticChain(0, 0, down_right, 20);
 
 	return true;
 }

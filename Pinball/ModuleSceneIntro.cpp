@@ -29,7 +29,9 @@ bool ModuleSceneIntro::Start()
 
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
-	circle = App->textures->Load("Sprites/Ball.png"); 
+	circle = App->textures->Load("Game/Sprites/Ball_PNG.png"); 
+
+	basic_sprites = App->textures->Load("Game/Sprites/Basic_sprites_PNG.png");
 
 	return ret;
 }
@@ -79,7 +81,7 @@ update_status ModuleSceneIntro::Update()
 	{
 		int x, y;
 		c->data->GetPosition(x, y);
-		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
+		//if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY())) //blits texture only if mouse inside shape
 			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
 	}
