@@ -7,6 +7,7 @@
 #include "p2Point.h"
 #include "math.h"
 #include "Box2D\Box2D\Box2D.h"
+#include "Box2D\Box2D\Dynamics\Joints\b2joint.h"
 
 #ifdef _DEBUG
 #pragma comment( lib, "Box2D/libx86/Debug/Box2D.lib" )
@@ -456,14 +457,14 @@ update_status ModulePhysics::PostUpdate()
 					mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
 				}
 
-				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+				if (mouse_joint && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 				{
 					mouse_joint->SetTarget({ PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()) });
 					App->renderer->DrawLine((App->input->GetMouseX()), (App->input->GetMouseY()), METERS_TO_PIXELS(mouse_joint->GetAnchorB().x), METERS_TO_PIXELS(mouse_joint->GetAnchorB().y), 125, 0, 125);
 
 				}
 
-				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+				if (mouse_joint && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
 				{
 					world->DestroyJoint(mouse_joint);
 					mouse_joint = nullptr;
