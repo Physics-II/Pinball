@@ -12,6 +12,16 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	circle = NULL;
 	ray_on = false;
 	sensed = false;
+
+	frog.PushBack({25,181,49,23});
+	frog.PushBack({82,181,49,23});
+	frog.PushBack({139,181,49,23});
+	frog.speed = 0.1;
+	
+	fairy.PushBack({39,234,13,39});
+	fairy.PushBack({80,234,13,39});
+	fairy.PushBack({119,234,13,39});
+	fairy.speed = 0.1;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -33,6 +43,8 @@ bool ModuleSceneIntro::Start()
 
 	basic_sprites = App->textures->Load("Game/Sprites/Basic_sprites_PNG.png");
 
+	
+
 	return ret;
 }
 
@@ -50,6 +62,7 @@ update_status ModuleSceneIntro::Update()
 	
 	App->renderer->Blit(map, 0, 0);
 
+	
 
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
