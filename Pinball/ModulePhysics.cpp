@@ -194,7 +194,7 @@ bool ModulePhysics::Start()
 	};
 
 	// Pivot 0, 0
-	int down_left[20] = {
+	int left_kicker[20] = {
 		105, 449,
 		113, 447,
 		126, 458,
@@ -208,7 +208,7 @@ bool ModulePhysics::Start()
 	};
 
 	// Pivot 0, 0
-	int down_right[20] = {
+	int right_kicker[20] = {
 		262, 448,
 		242, 465,
 		215, 488,
@@ -222,13 +222,24 @@ bool ModulePhysics::Start()
 	};
 
 	App->physics->CreateStaticChain(0, 0, background_ch, 138);
-	App->physics->CreateStaticChain(0, 0, bar_1, 20);
-	App->physics->CreateStaticChain(0, 0, bar_2, 20);
 	App->physics->CreateStaticChain(0, 0, triangle_1, 20);
 	App->physics->CreateStaticChain(0, 0, triangle_2, 16);
 	App->physics->CreateStaticChain(0, 0, ovni, 44);
-	App->physics->CreateStaticChain(0, 0, down_left, 20);
-	App->physics->CreateStaticChain(0, 0, down_right, 20);
+
+	l_bar = App->physics->CreateStaticChain(0, 0, bar_1, 20);
+	r_bar = App->physics->CreateStaticChain(0, 0, bar_2, 20);
+	l_kicker = App->physics->CreateChain(0, 0, left_kicker, 20); //dyn
+	r_kicker = App->physics->CreateChain(0, 0, right_kicker, 20); //dyn
+
+	b2RevoluteJointDef revoluteJointDef;
+	revoluteJointDef.bodyA = l_kicker->body;
+	revoluteJointDef.bodyB = l_bar->body;
+	revoluteJointDef.collideConnected = false;
+	revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(111), PIXEL_TO_METERS(457));
+	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(111), PIXEL_TO_METERS(457));
+	revoluteJointDef.referenceAngle = 0;
+	revoluteJointDef.upperAngle = (3.14 / 4);
+	revoluteJointDef.lowerAngle = 0;
 
 	return true;
 }

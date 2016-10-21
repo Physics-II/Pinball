@@ -48,6 +48,11 @@ public:
 	PhysBody* CreateChain(int x, int y, int* points, int size);
 	PhysBody* CreateStaticChain(int x, int y, int* points, int size);
 
+	PhysBody* l_kicker;
+	PhysBody* r_kicker;
+	PhysBody* l_bar;
+	PhysBody* r_bar;
+
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 
