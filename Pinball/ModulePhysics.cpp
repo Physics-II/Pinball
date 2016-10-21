@@ -226,7 +226,7 @@ bool ModulePhysics::Start()
 	App->physics->CreateStaticChain(0, 0, triangle_2, 16);
 	App->physics->CreateStaticChain(0, 0, ovni, 44);
 
-	l_bar = App->physics->CreateStaticChain(0, 0, bar_1, 20);
+	//l_bar = App->physics->CreateRectangle;
 	r_bar = App->physics->CreateStaticChain(0, 0, bar_2, 20);
 	l_kicker = App->physics->CreateChain(0, 0, left_kicker, 20); //dyn
 	r_kicker = App->physics->CreateChain(0, 0, right_kicker, 20); //dyn
@@ -312,6 +312,30 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	b->SetUserData(pbody);
 	pbody->width = width;
 	pbody->height = height;
+
+	return pbody;
+}
+
+PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
+{
+	b2BodyDef body;
+	body.type = b2_dynamicBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	b2Body* b = world->CreateBody(&body);
+	b2PolygonShape box;
+	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
+
+	b2FixtureDef fixture;
+	fixture.shape = &box;
+	fixture.density = 1.0f;
+
+	b->CreateFixture(&fixture);
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	pbody->width = width * 0.5f;
+	pbody->height = height * 0.5f;
 
 	return pbody;
 }
