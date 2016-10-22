@@ -41,8 +41,9 @@ public:
 	//For animation the frog
 	Animation frog;
 	Animation* animation_frog = &frog;
-
+	SDL_Rect frogRect;
 	//For the fairy
 	Animation fairy;
 	Animation* animation_fairy = &fairy;
+	SDL_Rect fairyRect;
 };

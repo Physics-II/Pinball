@@ -7,6 +7,8 @@
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 
+
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	circle = NULL;
@@ -16,12 +18,14 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	frog.PushBack({25,181,49,23});
 	frog.PushBack({82,181,49,23});
 	frog.PushBack({139,181,49,23});
-	frog.speed = 0.1;
+	frog.speed = 0.07;
+	frogRect = { 25,181,49,23 };
 	
 	fairy.PushBack({39,234,13,39});
-	fairy.PushBack({80,234,13,39});
-	fairy.PushBack({119,234,13,39});
-	fairy.speed = 0.1;
+	fairy.PushBack({80,234,17,40});
+	fairy.PushBack({119,234,25,40});
+	fairy.speed = 0.05;
+	fairyRect = { 39,234,13,39 };
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -52,7 +56,9 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-
+	App->textures->Unload(basic_sprites);
+	App->textures->Unload(circle);
+	App->textures->Unload(map);
 	return true;
 }
 
@@ -61,8 +67,17 @@ update_status ModuleSceneIntro::Update()
 {
 	
 	App->renderer->Blit(map, 0, 0);
-
-	
+	//DRAW ALL FROGS IN MAP
+		//frog
+	SDL_Rect fr = animation_frog->GetCurrentFrame();
+	App->renderer->Blit(basic_sprites, 205, 199, &fr);
+	App->renderer->Blit(basic_sprites, 292, 215, &fr);
+	App->renderer->Blit(basic_sprites, 247, 251, &fr);
+		//fairy
+	SDL_Rect fa = animation_fairy->GetCurrentFrame();
+	App->renderer->Blit(basic_sprites, 53, 209, &fa);
+	App->renderer->Blit(basic_sprites, 98, 245, &fa);
+	App->renderer->Blit(basic_sprites, 141, 193, &fa);
 
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{

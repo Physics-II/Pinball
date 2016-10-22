@@ -231,7 +231,7 @@ bool ModulePhysics::Start()
 	l_kicker = App->physics->CreateChain(0, 0, left_kicker, 20); //dyn
 	r_kicker = App->physics->CreateChain(0, 0, right_kicker, 20); //dyn
 
-	b2RevoluteJointDef revoluteJointDef;
+	/*b2RevoluteJointDef revoluteJointDef;
 	revoluteJointDef.bodyA = l_kicker->body;
 	revoluteJointDef.bodyB = l_bar->body;
 	revoluteJointDef.collideConnected = false;
@@ -239,7 +239,7 @@ bool ModulePhysics::Start()
 	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(111), PIXEL_TO_METERS(457));
 	revoluteJointDef.referenceAngle = 0;
 	revoluteJointDef.upperAngle = (3.14 / 4);
-	revoluteJointDef.lowerAngle = 0;
+	revoluteJointDef.lowerAngle = 0;*/
 
 	return true;
 }
