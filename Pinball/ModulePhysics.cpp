@@ -116,7 +116,7 @@ bool ModulePhysics::Start()
 	};
 
 	// Pivot 0, 0
-	int bar_1[40] = {
+	int bar_1[20] = {
 		318, 431,
 		317, 335,
 		309, 343,
@@ -229,20 +229,33 @@ bool ModulePhysics::Start()
 	App->physics->CreateStaticChain(0, 0, triangle_2, 16);
 	App->physics->CreateStaticChain(0, 0, ovni, 44);
 
-	//l_bar = App->physics->CreateRectangle;
-	r_bar = App->physics->CreateStaticChain(0, 0, bar_2, 20);
-	l_kicker = App->physics->CreateChain(0, 0, left_kicker, 20); //dyn
-	r_kicker = App->physics->CreateChain(0, 0, right_kicker, 20); //dyn
+	App->physics->CreateStaticChain(0, 0, bar_1, 20);
+	App->physics->CreateStaticChain(0, 0, bar_2, 20);
 
-	/*b2RevoluteJointDef revoluteJointDef;
+	l_kicker = App->physics->CreateRectangle(149, 460, 66, 14); //dyn
+	r_kicker = App->physics->CreateRectangle(231, 460, 66, 14); //dyn
+	r_joint = App->physics->CreateStaticCircle(124, 460, 8);
+	l_joint = App->physics->CreateStaticCircle(257, 460, 8);
+
+	b2RevoluteJointDef revoluteJointDef;
 	revoluteJointDef.bodyA = l_kicker->body;
-	revoluteJointDef.bodyB = l_bar->body;
+	revoluteJointDef.bodyB = l_joint->body;
 	revoluteJointDef.collideConnected = false;
-	revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(111), PIXEL_TO_METERS(457));
-	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(111), PIXEL_TO_METERS(457));
+	revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(7));
+	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(0));
 	revoluteJointDef.referenceAngle = 0;
 	revoluteJointDef.upperAngle = (3.14 / 4);
-	revoluteJointDef.lowerAngle = 0;*/
+	revoluteJointDef.lowerAngle = (3.14 / 4);
+
+	b2RevoluteJointDef revoluteJointDef2;
+	revoluteJointDef2.bodyA = r_kicker->body;
+	revoluteJointDef2.bodyB = r_joint->body;
+	revoluteJointDef2.collideConnected = false;
+	revoluteJointDef2.localAnchorA.Set(PIXEL_TO_METERS(66), PIXEL_TO_METERS(7));
+	revoluteJointDef2.localAnchorB.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(0));
+	revoluteJointDef2.referenceAngle = 0;
+	revoluteJointDef2.upperAngle = (3.14 / 4);
+	revoluteJointDef2.lowerAngle = (3.14 / 4);
 
 	return true;
 }
@@ -290,7 +303,55 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	return pbody;
 }
 
+PhysBody* ModulePhysics::CreateStaticCircle(int x, int y, int radius)
+{
+	b2BodyDef body;
+	body.type = b2_staticBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
+	b2Body* b = world->CreateBody(&body);
+
+	b2CircleShape shape;
+	shape.m_radius = PIXEL_TO_METERS(radius);
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+	fixture.density = 1.0f;
+
+	b->CreateFixture(&fixture);
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = pbody->height = radius;
+
+	return pbody;
+}
+
+
+PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
+{
+	b2BodyDef body;
+	body.type = b2_dynamicBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	b2Body* b = world->CreateBody(&body);
+	b2PolygonShape box;
+	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
+
+	b2FixtureDef fixture;
+	fixture.shape = &box;
+	fixture.density = 1.0f;
+
+	b->CreateFixture(&fixture);
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = width * 0.5f;
+	pbody->height = height * 0.5f;
+
+	return pbody;
+}
 
 PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int height)
 {
