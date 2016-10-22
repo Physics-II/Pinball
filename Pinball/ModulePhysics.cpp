@@ -221,6 +221,9 @@ bool ModulePhysics::Start()
 		271, 450
 	};
 
+	App->physics->CreateRectangleSensor(186, 546, 135, 15);
+	App->physics->CreateRectangleSensor(189, 145, 50, 11);
+
 	App->physics->CreateStaticChain(0, 0, background_ch, 138);
 	App->physics->CreateStaticChain(0, 0, triangle_1, 20);
 	App->physics->CreateStaticChain(0, 0, triangle_2, 16);
@@ -289,7 +292,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 
 
 
-/*PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int height)
+PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int height)
 {
 	b2BodyDef body;
 	body.type = b2_staticBody;
@@ -314,7 +317,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	pbody->height = height;
 
 	return pbody;
-}*/
+}
 
 
 
