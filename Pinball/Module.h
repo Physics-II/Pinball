@@ -4,6 +4,7 @@
 
 class Application;
 class PhysBody;
+struct Collider;
 
 class Module
 {

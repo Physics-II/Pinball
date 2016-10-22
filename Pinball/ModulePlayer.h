@@ -6,6 +6,10 @@
 class ModulePlayer : public Module
 {
 public:
+	
+
+public:
+
 	ModulePlayer(Application* app, bool start_enabled = true);
 	virtual ~ModulePlayer();
 
@@ -13,6 +17,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-public:
+	
+
 
 };

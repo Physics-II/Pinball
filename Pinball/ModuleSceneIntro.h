@@ -46,4 +46,14 @@ public:
 	Animation fairy;
 	Animation* animation_fairy = &fairy;
 	SDL_Rect fairyRect;
+	//Ball LIFES
+	SDL_Rect ballLife;
+	//BALL (PLAYER)
+	PhysBody* player;
+	
+	SDL_Texture* graphics = nullptr;
+	int lifes;
+	int playerPositionX, playerPositionY;
+	int speed;
+	int bar_movement;
 };

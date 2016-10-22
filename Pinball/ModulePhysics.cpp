@@ -289,7 +289,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 
 
 
-PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int height)
+/*PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int height)
 {
 	b2BodyDef body;
 	body.type = b2_staticBody;
@@ -314,31 +314,9 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	pbody->height = height;
 
 	return pbody;
-}
+}*/
 
-PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
-{
-	b2BodyDef body;
-	body.type = b2_dynamicBody;
-	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
-	b2Body* b = world->CreateBody(&body);
-	b2PolygonShape box;
-	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
-
-	b2FixtureDef fixture;
-	fixture.shape = &box;
-	fixture.density = 1.0f;
-
-	b->CreateFixture(&fixture);
-
-	PhysBody* pbody = new PhysBody();
-	pbody->body = b;
-	pbody->width = width * 0.5f;
-	pbody->height = height * 0.5f;
-
-	return pbody;
-}
 
 PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
 {
