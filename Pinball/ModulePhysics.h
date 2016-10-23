@@ -47,6 +47,7 @@ public:
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
 	PhysBody* CreateChain(int x, int y, int* points, int size);
 	PhysBody* CreateRectangle(int x, int y, int width, int height);
+	PhysBody* CreateStaticRectangle(int x, int y, int width, int height);
 	PhysBody* CreateStaticChain(int x, int y, int* points, int size);
 
 	PhysBody* l_kicker;
