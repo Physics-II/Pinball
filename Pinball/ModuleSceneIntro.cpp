@@ -46,8 +46,14 @@ bool ModuleSceneIntro::Start()
 	circle = App->textures->Load("Game/Sprites/Ball_PNG.png"); 
 
 	basic_sprites = App->textures->Load("Game/Sprites/Basic_sprites_PNG.png");
-
-	
+	//Rectangle frogs
+	App->physics->CreateStaticRectangle(229, 210, 49, 23);
+	App->physics->CreateStaticRectangle(317 ,227, 49, 23);
+	App->physics->CreateStaticRectangle(272, 263, 49, 23);
+	//Rectangle fairy
+	App->physics->CreateStaticRectangle(64, 229, 17, 40);
+	App->physics->CreateStaticRectangle(109, 265, 17, 40);
+	App->physics->CreateStaticRectangle(151, 213, 17, 40);
 
 	return ret;
 }
@@ -67,25 +73,23 @@ update_status ModuleSceneIntro::Update()
 {
 	
 	App->renderer->Blit(map, 0, 0);
-	//DRAW ALL FROGS IN MAP
+	//DRAW ALL IN MAP
 		//frog
-	SDL_Rect fr = animation_frog->GetCurrentFrame();
-	App->renderer->Blit(basic_sprites, 205, 199, &fr);
-	App->renderer->Blit(basic_sprites, 292, 215, &fr);
-	App->renderer->Blit(basic_sprites, 247, 251, &fr);
+	
+		SDL_Rect fr = animation_frog->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 205, 199, &fr);
+		App->renderer->Blit(basic_sprites, 292, 215, &fr);
+		App->renderer->Blit(basic_sprites, 247, 251, &fr);
+		
 		//fairy
-	SDL_Rect fa = animation_fairy->GetCurrentFrame();
-	App->renderer->Blit(basic_sprites, 53, 209, &fa);
-	App->renderer->Blit(basic_sprites, 98, 245, &fa);
-	App->renderer->Blit(basic_sprites, 141, 193, &fa);
-
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		ray_on = !ray_on;
-		ray.x = App->input->GetMouseX();
-		ray.y = App->input->GetMouseY();
-	}
-
+	
+		SDL_Rect fa = animation_fairy->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 53, 209, &fa);
+		App->renderer->Blit(basic_sprites, 98, 245, &fa);
+		App->renderer->Blit(basic_sprites, 141, 193, &fa);
+		createfairy = false;
+	
+	
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 8));
@@ -98,7 +102,7 @@ update_status ModuleSceneIntro::Update()
 	iPoint mouse;
 	mouse.x = App->input->GetMouseX();
 	mouse.y = App->input->GetMouseY();
-	int ray_hit = ray.DistanceTo(mouse);
+	
 
 	fVector normal(0.0f, 0.0f);
 
@@ -116,45 +120,6 @@ update_status ModuleSceneIntro::Update()
 
 	
 
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(box, x, y, NULL, 1.0f, c->data->GetRotation());
-		if(ray_on)
-		{
-			int hit = c->data->RayCast(ray.x, ray.y, mouse.x, mouse.y, normal.x, normal.y);
-			if(hit >= 0)
-				ray_hit = hit;
-		}
-		c = c->next;
-	}
-
-	
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
-
-	c = chains.getFirst();
-
-	// ray -----------------
-	if(ray_on == true)
-	{
-		fVector destination(mouse.x-ray.x, mouse.y-ray.y);
-		destination.Normalize();
-		destination *= ray_hit;
-
-		App->renderer->DrawLine(ray.x, ray.y, ray.x + destination.x, ray.y + destination.y, 255, 255, 255);
-
-		if(normal.x != 0.0f)
-			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
-	}
-
 	return UPDATE_CONTINUE;
 }
 
@@ -164,7 +129,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 	App->audio->PlayFx(bonus_fx);
 
-	/*
+	
 	if(bodyA)
 	{
 		bodyA->GetPosition(x, y);
@@ -175,5 +140,5 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	{
 		bodyB->GetPosition(x, y);
 		App->renderer->DrawCircle(x, y, 50, 100, 100, 100);
-	}*/
+	}
 }

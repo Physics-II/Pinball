@@ -37,7 +37,7 @@ public:
 	p2Point<int> ray;
 	bool ray_on;
 	bool victory;
-
+	bool createfrog=true, createfairy= true;
 	//For animation the frog
 	Animation frog;
 	Animation* animation_frog = &frog;
@@ -49,11 +49,5 @@ public:
 	//Ball LIFES
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
-	PhysBody* player;
-	
-	SDL_Texture* graphics = nullptr;
-	int lifes;
-	int playerPositionX, playerPositionY;
-	int speed;
-	int bar_movement;
+
 };
