@@ -55,6 +55,9 @@ public:
 	PhysBody* l_joint;
 	PhysBody* r_joint;
 
+	b2RevoluteJoint* l_fix;
+	b2RevoluteJoint* r_fix;
+
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 
