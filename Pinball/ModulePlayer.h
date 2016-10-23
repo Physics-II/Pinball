@@ -14,7 +14,8 @@ public:
 	int lifes = 3;
 	SDL_Texture* graphics = nullptr;
 
-	
+	SDL_Texture* life;
+
 	int speed;
 	int bar_movement;
 	bool dead = true;
