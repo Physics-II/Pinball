@@ -234,28 +234,28 @@ bool ModulePhysics::Start()
 
 	l_kicker = App->physics->CreateRectangle(152, 460, 60, 14); //dyn
 	r_kicker = App->physics->CreateRectangle(227, 460, 60, 14); //dyn
-	l_joint = App->physics->CreateStaticCircle(124, 460, 8);
-	r_joint = App->physics->CreateStaticCircle(257, 460, 8);
+	l_joint = App->physics->CreateStaticCircle(124, 460, 3);
+	r_joint = App->physics->CreateStaticCircle(257, 460, 3);
 
-	b2RevoluteJointDef revoluteJointDef;
-	revoluteJointDef.bodyA = l_kicker->body;
-	revoluteJointDef.bodyB = l_joint->body;
-	revoluteJointDef.collideConnected = false;
-	revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(7));
-	revoluteJointDef.upperAngle = (3.14 / 4);
-	revoluteJointDef.lowerAngle = (- 3.14 / 4);
-	revoluteJointDef.enableLimit = true;
-	l_fix = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
+	b2RevoluteJointDef Def;
+	Def.bodyA = l_kicker->body;
+	Def.bodyB = l_joint->body;
+	Def.collideConnected = false;
+	Def.upperAngle = 30 * DEGTORAD;
+	Def.lowerAngle = -30 * DEGTORAD;
+	Def.enableLimit = true;
+	Def.localAnchorB.Set(0.0f, 0.01f);
+	l_fix = (b2RevoluteJoint*)world->CreateJoint(&Def);
 
-	b2RevoluteJointDef revoluteJointDef2;
-	revoluteJointDef2.bodyA = r_kicker->body;
-	revoluteJointDef2.bodyB = r_joint->body;
-	revoluteJointDef2.collideConnected = false;
-	revoluteJointDef2.localAnchorA.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(0));
-	revoluteJointDef2.upperAngle = (3.14 / 4);
-	revoluteJointDef2.lowerAngle = (- 3.14 / 4);
-	revoluteJointDef2.enableLimit = true;
-	r_fix = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef2);
+	b2RevoluteJointDef Def2;
+	Def2.bodyA = r_kicker->body;
+	Def2.bodyB = r_joint->body;
+	Def2.collideConnected = false;
+	Def2.upperAngle = -30 * DEGTORAD;
+	Def2.lowerAngle = 30 * DEGTORAD;
+	Def2.enableLimit = true;
+	Def2.localAnchorB.Set(0.0f, 0.01f);
+	r_fix = (b2RevoluteJoint*)world->CreateJoint(&Def2);
 
 	return true;
 }
