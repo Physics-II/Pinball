@@ -49,6 +49,7 @@ public:
 	PhysBody* CreateRectangle(int x, int y, int width, int height);
 	PhysBody* CreateStaticRectangle(int x, int y, int width, int height);
 	PhysBody* CreateStaticChain(int x, int y, int* points, int size);
+	void CreatePrismaticJoint(PhysBody* dynami, PhysBody* stati);
 
 	PhysBody* l_kicker;
 	PhysBody* r_kicker;
@@ -57,6 +58,9 @@ public:
 
 	b2RevoluteJoint* l_fix;
 	b2RevoluteJoint* r_fix;
+
+	//Prysmatic Joint
+	PhysBody *pivotSpringy, *springy;
 
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);

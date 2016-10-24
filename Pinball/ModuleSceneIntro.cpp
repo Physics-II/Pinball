@@ -50,8 +50,7 @@ bool ModuleSceneIntro::Start()
 	Pivot_spring = App->physics->CreateRectangle(338, 510, 18, 10, false);
 	App->physics->CreatePrismaticJoint(Spring, Pivot_spring);*/
 
-	springy = App->physics->CreateRectangle(350, 395, 25, 12);
-	pivotSpringy = App->physics->CreateStaticRectangle(364, 462, 25, 12);
+	
 
 	return ret;
 }

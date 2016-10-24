@@ -52,6 +52,5 @@ public:
 
 
 
-	//Prysmatic Joint
-	PhysBody *pivotSpringy, *springy;
+	
 };

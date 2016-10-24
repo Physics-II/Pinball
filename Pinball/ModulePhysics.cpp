@@ -237,6 +237,11 @@ bool ModulePhysics::Start()
 	l_joint = App->physics->CreateStaticCircle(124, 460, 3);
 	r_joint = App->physics->CreateStaticCircle(257, 460, 3);
 
+	//springy
+	springy = App->physics->CreateRectangle(350, 395, 25, 12);
+	pivotSpringy = App->physics->CreateStaticRectangle(364, 462, 25, 12);
+	App->physics->CreatePrismaticJoint(springy,pivotSpringy);
+
 	b2RevoluteJointDef Def;
 	Def.bodyA = l_kicker->body;
 	Def.bodyB = l_joint->body;
@@ -475,6 +480,35 @@ PhysBody* ModulePhysics::CreateStaticChain(int x, int y, int* points, int size)
 	return pbody;
 }
 
+void ModulePhysics::CreatePrismaticJoint(PhysBody* dynami, PhysBody* stati)
+{
+	/*b2PrismaticJointDef prismaticJointDef;
+	prismaticJointDef.bodyA = bodya->body;
+	prismaticJointDef.bodyB = bodyb->body;
+	prismaticJointDef.collideConnected = true;
+
+
+	prismaticJointDef.localAnchorA.Set(0, 0);
+	prismaticJointDef.localAnchorB.Set(0, -1);
+	prismaticJointDef.localAxisA.Set(0, -1);
+	prismaticJointDef.enableLimit = true;
+	prismaticJointDef.lowerTranslation = -0.02;
+	prismaticJointDef.upperTranslation = 1.0;
+	(b2PrismaticJoint*)world->CreateJoint(&prismaticJointDef);*/
+	b2PrismaticJointDef prismaticJoint;
+	prismaticJoint.collideConnected = true;
+	prismaticJoint.bodyA = springy->body;
+	prismaticJoint.bodyB = pivotSpringy->body;
+
+	prismaticJoint.localAnchorA.Set(0, 0);
+	prismaticJoint.localAnchorB.Set(0, -1);
+	prismaticJoint.localAxisA.Set(0, -1);
+	prismaticJoint.enableLimit = true;
+	prismaticJoint.lowerTranslation = -0.02;
+	prismaticJoint.upperTranslation = 1.0;
+	(b2PrismaticJoint*)world->CreateJoint(&prismaticJoint);
+	
+}
 // 
 update_status ModulePhysics::PostUpdate()
 {
