@@ -636,26 +636,6 @@ update_status ModulePhysics::PostUpdate()
 		mouse_joint = nullptr;
 	} //fixture for
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-	{
-		r_kicker->body->ApplyForce({ 10, 30 }, { 0, 0 }, true);
-
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
-		{
-			r_kicker->body->ApplyForce({ -10, -30 }, { 0,0 }, true);
-		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-	{
-		r_kicker->body->ApplyForce({ 10, 30 }, { 0, 0 }, true);
-
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
-		{
-			r_kicker->body->ApplyForce({ -10, -30 }, { 0,0 }, true);
-		}
-	}
-
 	return UPDATE_CONTINUE;
 }
 

@@ -98,15 +98,36 @@ update_status ModuleSceneIntro::Update()
 		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 8));
 		circles.getLast()->data->listener = this;
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_REPEAT)
 	{
 		App->physics->springy->body->ApplyForce({ 0,18 }, { 0, 0 }, true);
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP)
 	{
 		App->physics->springy->body->ApplyForce({ 0,-200}, { 0, 0 }, true);
 	}
-	
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	{
+		App->physics->r_kicker->body->ApplyForce({ -10, -60 }, { 0, 0 }, true);
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+		{
+			App->physics->r_kicker->body->ApplyForce({ 10, 60 }, { 0, 0 }, true);
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	{
+		App->physics->l_kicker->body->ApplyForce({ 10, 100 }, { 0, 0 }, true);
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+		{
+			App->physics->l_kicker->body->ApplyForce({ -10, -100 }, { 0, 0 }, true);
+		}
+	}
 
 	// Prepare for raycast ------------------------------------------------------
 	
