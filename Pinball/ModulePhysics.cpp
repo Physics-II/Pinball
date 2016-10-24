@@ -258,7 +258,7 @@ bool ModulePhysics::Start()
 	Def2.bodyA = r_kicker->body;
 	Def2.bodyB = r_joint->body;
 	Def2.collideConnected = false;
-	Def2.upperAngle = 25 * DEGTORAD;
+	Def2.upperAngle = 30 * DEGTORAD;
 	Def2.lowerAngle = -25 * DEGTORAD;
 	Def2.enableLimit = true;
 	Def2.localAnchorA.Set(PIXEL_TO_METERS(30), PIXEL_TO_METERS(0));
@@ -484,19 +484,7 @@ PhysBody* ModulePhysics::CreateStaticChain(int x, int y, int* points, int size)
 
 void ModulePhysics::CreatePrismaticJoint(PhysBody* dynami, PhysBody* stati)
 {
-	/*b2PrismaticJointDef prismaticJointDef;
-	prismaticJointDef.bodyA = bodya->body;
-	prismaticJointDef.bodyB = bodyb->body;
-	prismaticJointDef.collideConnected = true;
-
-
-	prismaticJointDef.localAnchorA.Set(0, 0);
-	prismaticJointDef.localAnchorB.Set(0, -1);
-	prismaticJointDef.localAxisA.Set(0, -1);
-	prismaticJointDef.enableLimit = true;
-	prismaticJointDef.lowerTranslation = -0.02;
-	prismaticJointDef.upperTranslation = 1.0;
-	(b2PrismaticJoint*)world->CreateJoint(&prismaticJointDef);*/
+	
 	b2PrismaticJointDef prismaticJoint;
 	prismaticJoint.collideConnected = true;
 	prismaticJoint.bodyA = springy->body;
@@ -511,7 +499,7 @@ void ModulePhysics::CreatePrismaticJoint(PhysBody* dynami, PhysBody* stati)
 	(b2PrismaticJoint*)world->CreateJoint(&prismaticJoint);
 	
 }
-// 
+//
 update_status ModulePhysics::PostUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)

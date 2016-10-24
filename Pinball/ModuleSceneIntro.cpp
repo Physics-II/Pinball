@@ -50,7 +50,9 @@ bool ModuleSceneIntro::Start()
 
 	springle_tex = App->textures->Load("Game/Sprites/springle.png");
 
-	
+	lKiker = App->textures->Load("Sprites/left_kicker.png");
+
+	rKiker = App->textures->Load("Sprites/right_kicker.png");
 
 	return ret;
 }
@@ -91,6 +93,14 @@ update_status ModuleSceneIntro::Update()
 		App->physics->springy->GetPosition(sPositionX, sPositionY);
 		App->renderer->Blit(springle_tex, sPositionX, sPositionY, NULL, 1.0f);
 
+		//kikers
+		int lKx, lKy , rKx, rKy;
+		App->physics->l_kicker->GetPosition(lKx, lKy);
+		App->renderer->Blit(lKiker, lKx, lKy, NULL, 1.0f,App->physics->l_kicker->GetRotation());
+
+		App->physics->r_kicker->GetPosition(rKx, rKy);
+		App->renderer->Blit(rKiker, rKx, rKy, NULL, 1.0f, App->physics->r_kicker->GetRotation());
+
 	App->physics->springy->body->ApplyForce({ 0,-10}, { 0, 0 }, true);
 	
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
@@ -109,17 +119,17 @@ update_status ModuleSceneIntro::Update()
 		App->physics->springy->body->ApplyForce({ 0,-200}, { 0, 0 }, true);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		App->physics->r_kicker->body->ApplyForce({ -10, -60 }, { 0, 0 }, true);
+		App->physics->r_kicker->body->ApplyForce({ -10, -100}, { 0, 0 }, true);
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
-			App->physics->r_kicker->body->ApplyForce({ 10, 60 }, { 0, 0 }, true);
+			App->physics->r_kicker->body->ApplyForce({ 10, 100 }, { 0, 0 }, true);
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
 		App->physics->l_kicker->body->ApplyForce({ 10, 100 }, { 0, 0 }, true);
 

@@ -28,6 +28,7 @@ public:
 	PhysBody* sensor;
 	bool sensed;
 	SDL_Texture* springle_tex;
+	SDL_Texture *lKiker, *rKiker;
 	SDL_Texture* map;
 	SDL_Texture* circle;
 	SDL_Texture* box;
