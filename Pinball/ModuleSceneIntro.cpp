@@ -39,21 +39,19 @@ bool ModuleSceneIntro::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	map = App->textures->Load("Game/Sprites/Empty_map_PNG.png");
+	map = App->textures->Load("Sprites/Empty_map_PNG.png");
 
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
-	circle = App->textures->Load("Game/Sprites/Ball_PNG.png"); 
+	circle = App->textures->Load("Sprites/Ball_PNG.png"); 
 
-	basic_sprites = App->textures->Load("Game/Sprites/Basic_sprites_PNG.png");
-	//Rectangle frogs
-	App->physics->CreateStaticRectangle(229, 210, 49, 23);
-	App->physics->CreateStaticRectangle(317 ,227, 49, 23);
-	App->physics->CreateStaticRectangle(272, 263, 49, 23);
-	//Rectangle fairy
-	App->physics->CreateStaticRectangle(64, 229, 17, 40);
-	App->physics->CreateStaticRectangle(109, 265, 17, 40);
-	App->physics->CreateStaticRectangle(151, 213, 17, 40);
+	basic_sprites = App->textures->Load("Sprites/Basic_sprites_PNG.png");
+	/*Spring = App->physics->CreateRectangle(338, 450, 18, 10, true);
+	Pivot_spring = App->physics->CreateRectangle(338, 510, 18, 10, false);
+	App->physics->CreatePrismaticJoint(Spring, Pivot_spring);*/
+
+	springy = App->physics->CreateRectangle(350, 395, 25, 12);
+	pivotSpringy = App->physics->CreateStaticRectangle(364, 462, 25, 12);
 
 	return ret;
 }

@@ -20,7 +20,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 	bool ret = true;
-	graphics = App->textures->Load("Game/Sprites/Ball_PNG.png");
+	graphics = App->textures->Load("Sprites/Ball_PNG.png");
 	return ret;
 }
 

@@ -50,4 +50,8 @@ public:
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
 
+
+
+	//Prysmatic Joint
+	PhysBody *pivotSpringy, *springy;
 };
