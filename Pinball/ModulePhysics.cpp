@@ -232,10 +232,10 @@ bool ModulePhysics::Start()
 	App->physics->CreateStaticChain(0, 0, bar_1, 20);
 	App->physics->CreateStaticChain(0, 0, bar_2, 20);
 
-	l_kicker = App->physics->CreateRectangle(152, 460, 60, 14); //dyn
-	r_kicker = App->physics->CreateRectangle(227, 460, 60, 14); //dyn
-	l_joint = App->physics->CreateStaticCircle(124, 460, 3);
-	r_joint = App->physics->CreateStaticCircle(257, 460, 3);
+	l_kicker = App->physics->CreateRectangle(137, 460, 65, 14); //dyn
+	r_kicker = App->physics->CreateRectangle(240, 460, 65, 14); //dyn
+	l_joint = App->physics->CreateStaticCircle(120, 460, 3);
+	r_joint = App->physics->CreateStaticCircle(260, 460, 3);
 
 	//springy
 	springy = App->physics->CreateRectangle(350, 395, 25, 12);
@@ -248,20 +248,20 @@ bool ModulePhysics::Start()
 	Def.bodyA = l_kicker->body;
 	Def.bodyB = l_joint->body;
 	Def.collideConnected = false;
-	Def.upperAngle = 30 * DEGTORAD;
-	Def.lowerAngle = -30 * DEGTORAD;
+	Def.upperAngle = 25 * DEGTORAD;
+	Def.lowerAngle = -25 * DEGTORAD;
 	Def.enableLimit = true;
-	Def.localAnchorB.Set(0.0f, 0.01f);
+	Def.localAnchorA.Set(PIXEL_TO_METERS(-30), PIXEL_TO_METERS(0));
 	l_fix = (b2RevoluteJoint*)world->CreateJoint(&Def);
 
 	b2RevoluteJointDef Def2;
 	Def2.bodyA = r_kicker->body;
 	Def2.bodyB = r_joint->body;
 	Def2.collideConnected = false;
-	Def2.upperAngle = -30 * DEGTORAD;
-	Def2.lowerAngle = 30 * DEGTORAD;
+	Def2.upperAngle = 25 * DEGTORAD;
+	Def2.lowerAngle = -25 * DEGTORAD;
 	Def2.enableLimit = true;
-	Def2.localAnchorB.Set(0.0f, 0.01f);
+	Def2.localAnchorA.Set(PIXEL_TO_METERS(30), PIXEL_TO_METERS(0));
 	r_fix = (b2RevoluteJoint*)world->CreateJoint(&Def2);
 
 	return true;
@@ -608,37 +608,56 @@ update_status ModulePhysics::PostUpdate()
 			}
 		}
 	}
-			
-				b2MouseJointDef def;
 
-				if (hit)
-				{
-					def.bodyA = ground;
-					def.bodyB = clicked;
-					def.target = pos;
-					def.dampingRatio = 0.5f;
-					def.frequencyHz = 2.0f;
-					def.maxForce = 100.0f * clicked->GetMass();
+	b2MouseJointDef def;
 
-					mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
-				}
+	if (hit)
+	{
+		def.bodyA = ground;
+		def.bodyB = clicked;
+		def.target = pos;
+		def.dampingRatio = 0.5f;
+		def.frequencyHz = 2.0f;
+		def.maxForce = 100.0f * clicked->GetMass();
 
-				if (mouse_joint && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
-				{
-					mouse_joint->SetTarget({ PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()) });
-					App->renderer->DrawLine((App->input->GetMouseX()), (App->input->GetMouseY()), METERS_TO_PIXELS(mouse_joint->GetAnchorB().x), METERS_TO_PIXELS(mouse_joint->GetAnchorB().y), 125, 0, 125);
+		mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
+	}
 
-				}
+	if (mouse_joint && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	{
+		mouse_joint->SetTarget({ PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()) });
+		App->renderer->DrawLine((App->input->GetMouseX()), (App->input->GetMouseY()), METERS_TO_PIXELS(mouse_joint->GetAnchorB().x), METERS_TO_PIXELS(mouse_joint->GetAnchorB().y), 125, 0, 125);
 
-				if (mouse_joint && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
-				{
-					world->DestroyJoint(mouse_joint);
-					mouse_joint = nullptr;
-				} //fixture for
+	}
+
+	if (mouse_joint && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+	{
+		world->DestroyJoint(mouse_joint);
+		mouse_joint = nullptr;
+	} //fixture for
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	{
+		r_kicker->body->ApplyForce({ 10, 30 }, { 0, 0 }, true);
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+		{
+			r_kicker->body->ApplyForce({ -10, -30 }, { 0,0 }, true);
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	{
+		r_kicker->body->ApplyForce({ 10, 30 }, { 0, 0 }, true);
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+		{
+			r_kicker->body->ApplyForce({ -10, -30 }, { 0,0 }, true);
+		}
+	}
 
 	return UPDATE_CONTINUE;
 }
-
 
 // Called before quitting
 bool ModulePhysics::CleanUp()
@@ -723,27 +742,4 @@ void ModulePhysics::BeginContact(b2Contact* contact)
 
 	if(physB && physB->listener != NULL)
 		physB->listener->OnCollision(physB, physA);
-}
-
-void ModulePhysics::Kickers()
-{
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-	{
-		r_kicker->body->ApplyForce({ 10, 30 }, { 0, 0 }, true);
-
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
-		{
-			r_kicker->body->ApplyForce({ -10, -30 }, { 0,0 }, true);
-		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-	{
-		r_kicker->body->ApplyForce({ 10, 30 }, { 0, 0 }, true);
-
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
-		{
-			r_kicker->body->ApplyForce({ -10, -30 }, { 0,0 }, true);
-		}
-	}
 }
