@@ -39,13 +39,13 @@ bool ModuleSceneIntro::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	map = App->textures->Load("Sprites/Empty_map_PNG.png");
+	map = App->textures->Load("Game/Sprites/Empty_map_PNG.png");
 
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
-	circle = App->textures->Load("Sprites/Ball_PNG.png"); 
+	circle = App->textures->Load("Game/Sprites/Ball_PNG.png"); 
 
-	basic_sprites = App->textures->Load("Sprites/Basic_sprites_PNG.png");
+	basic_sprites = App->textures->Load("Game/Sprites/Basic_sprites_PNG.png");
 	/*Spring = App->physics->CreateRectangle(338, 450, 18, 10, true);
 	Pivot_spring = App->physics->CreateRectangle(338, 510, 18, 10, false);
 	App->physics->CreatePrismaticJoint(Spring, Pivot_spring);*/

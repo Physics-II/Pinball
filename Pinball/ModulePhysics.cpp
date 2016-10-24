@@ -724,3 +724,26 @@ void ModulePhysics::BeginContact(b2Contact* contact)
 	if(physB && physB->listener != NULL)
 		physB->listener->OnCollision(physB, physA);
 }
+
+void ModulePhysics::Kickers()
+{
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	{
+		r_kicker->body->ApplyForce({ 10, 30 }, { 0, 0 }, true);
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+		{
+			r_kicker->body->ApplyForce({ -10, -30 }, { 0,0 }, true);
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	{
+		r_kicker->body->ApplyForce({ 10, 30 }, { 0, 0 }, true);
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+		{
+			r_kicker->body->ApplyForce({ -10, -30 }, { 0,0 }, true);
+		}
+	}
+}
