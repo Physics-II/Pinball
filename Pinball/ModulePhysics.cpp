@@ -239,8 +239,10 @@ bool ModulePhysics::Start()
 
 	//springy
 	springy = App->physics->CreateRectangle(350, 395, 25, 12);
-	pivotSpringy = App->physics->CreateStaticRectangle(364, 462, 25, 12);
+	pivotSpringy = App->physics->CreateStaticRectangle(364, 479, 25, 12);
 	App->physics->CreatePrismaticJoint(springy,pivotSpringy);
+
+	
 
 	b2RevoluteJointDef Def;
 	Def.bodyA = l_kicker->body;

@@ -85,14 +85,23 @@ update_status ModuleSceneIntro::Update()
 		App->renderer->Blit(basic_sprites, 98, 245, &fa);
 		App->renderer->Blit(basic_sprites, 141, 193, &fa);
 		createfairy = false;
-	
+
+		App->physics->springy->body->ApplyForce({ 0,-10}, { 0, 0 }, true);
 	
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 8));
 		circles.getLast()->data->listener = this;
 	}
-
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_REPEAT)
+	{
+		App->physics->springy->body->ApplyForce({ 0,18 }, { 0, 0 }, true);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP)
+	{
+		App->physics->springy->body->ApplyForce({ 0,-200}, { 0, 0 }, true);
+	}
+	
 
 	// Prepare for raycast ------------------------------------------------------
 	
