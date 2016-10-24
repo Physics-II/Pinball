@@ -27,7 +27,7 @@ public:
 
 	PhysBody* sensor;
 	bool sensed;
-	
+	SDL_Texture* springle_tex;
 	SDL_Texture* map;
 	SDL_Texture* circle;
 	SDL_Texture* box;
@@ -50,7 +50,8 @@ public:
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
 
-
+	//Score
+	int score = 0, globalScore = 0;
 
 	
 };

@@ -6,7 +6,8 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
-
+#include "p2DynArray.h"
+#include "ModuleWindow.h"
 
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -46,9 +47,8 @@ bool ModuleSceneIntro::Start()
 	circle = App->textures->Load("Game/Sprites/Ball_PNG.png"); 
 
 	basic_sprites = App->textures->Load("Game/Sprites/Basic_sprites_PNG.png");
-	/*Spring = App->physics->CreateRectangle(338, 450, 18, 10, true);
-	Pivot_spring = App->physics->CreateRectangle(338, 510, 18, 10, false);
-	App->physics->CreatePrismaticJoint(Spring, Pivot_spring);*/
+
+	springle_tex = App->textures->Load("Game/Sprites/springle.png");
 
 	
 
@@ -86,7 +86,12 @@ update_status ModuleSceneIntro::Update()
 		App->renderer->Blit(basic_sprites, 141, 193, &fa);
 		createfairy = false;
 
-		App->physics->springy->body->ApplyForce({ 0,-10}, { 0, 0 }, true);
+		//springy
+		int sPositionX, sPositionY;
+		App->physics->springy->GetPosition(sPositionX, sPositionY);
+		App->renderer->Blit(springle_tex, sPositionX, sPositionY, NULL, 1.0f);
+
+	App->physics->springy->body->ApplyForce({ 0,-10}, { 0, 0 }, true);
 	
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
@@ -123,9 +128,10 @@ update_status ModuleSceneIntro::Update()
 			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
 	}
-
+	//print score
+	//p2DynArray title("Score: %i Global Score: %i",score, globalScore);
+	//App->window->SetTitle(title.GetString());
 	
-
 	return UPDATE_CONTINUE;
 }
 
