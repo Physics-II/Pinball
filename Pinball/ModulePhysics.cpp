@@ -229,9 +229,15 @@ bool ModulePhysics::Start()
 	l_joint = App->physics->CreateStaticCircle(110, 457, 3);
 	r_joint = App->physics->CreateStaticCircle(265, 457, 3);
 
+
 	//springy
+	b2Filter b;
+	b.categoryBits = ON;
+	b.maskBits = ON | OFF;
 	springy = App->physics->CreateRectangle(350, 395, 25, 12, b2_dynamicBody);
+	springy->body->GetFixtureList()->SetFilterData(b);
 	pivotSpringy = App->physics->CreateRectangle(364, 479, 25, 12, b2_staticBody);
+	pivotSpringy->body->GetFixtureList()->SetFilterData(b);
 	App->physics->CreatePrismaticJoint(springy,pivotSpringy);
 
 

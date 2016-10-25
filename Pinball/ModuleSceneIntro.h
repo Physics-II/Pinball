@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "Animation.h"
 #include "Module.h"
+#include <Windows.h>
 
 struct SDL_Texture;
 class PhysBody;
@@ -52,10 +53,11 @@ public:
 	//Ball LIFES
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
-	PhysBody* dead , *spaceship ,*fairy1,*fairy2, *fairy3 ,*frog1,*frog2,*frog3, *sensor_2 ;
-	bool ret = true; 
-
-
+	PhysBody* dead , *spaceship, *setspaceship,*fairy1,*fairy2, *fairy3 ,*frog1,*frog2,*frog3, *sensor_2 ;
+	bool ret = true , changebody; 
+	
+	int time, lastTime;
+	
 	//Score
 	int score = 0, globalScore = 0;
 

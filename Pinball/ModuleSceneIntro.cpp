@@ -38,7 +38,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-
+	changebody = false;
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	map = App->textures->Load("Game/Sprites/Empty_map_PNG.png");
@@ -58,21 +58,31 @@ bool ModuleSceneIntro::Start()
 
 	dead = App->physics->CreateRectangleSensor(186, 546, 135, 15);
 	dead->listener = this;
-	
-	// create filter and spaceship sensor
-	spaceship = App->physics->CreateRectangleSensor(189, 145, 50, 11);
-	spaceship->listener=this;
+
+	 time = SDL_GetTicks();
+
 	b2Filter b;
+	// create filter and spaceship sensor
+	//spaceship = App->physics->CreateRectangleSensor(189, 145, 50, 11);
 	b.categoryBits = ON;
-	b.maskBits = ON	;
+	b.maskBits = ON;
+	spaceship = App->physics->CreateRectangleSensor(189, 145, 50, 11);
+	spaceship->listener = this;
 	spaceship->body->GetFixtureList()->SetFilterData(b);
 
+
+	setspaceship = App->physics->CreateRectangleSensor(189, 185, 100, 11);
+	setspaceship->listener = this;
+	b.categoryBits = OFF;
+	b.maskBits = OFF;
+	setspaceship->body->GetFixtureList()->SetFilterData(b);
+
 	b.categoryBits = ON;
-	b.maskBits = ON|OFF;
+	b.maskBits = ON;
 	//sensor 2
 	sensor_2 = App->physics->CreateRectangleSensor(229, 210, 49, 23);
-	frog1->listener = this;
-	frog1->body->GetFixtureList()->SetFilterData(b);
+	sensor_2->listener = this;
+	sensor_2->body->GetFixtureList()->SetFilterData(b);
 	//frog 1
 	frog1 = App->physics->CreateRectangleSensor(229, 210, 49, 23);
 	frog1->listener = this;
@@ -115,36 +125,36 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-	
+
 	App->renderer->Blit(map, 0, 0);
 	//DRAW ALL IN MAP
 		//frog
-	
-		SDL_Rect fr = animation_frog->GetCurrentFrame();
-		App->renderer->Blit(basic_sprites, 205, 199, &fr);
-		App->renderer->Blit(basic_sprites, 292, 215, &fr);
-		App->renderer->Blit(basic_sprites, 247, 251, &fr);
-		
-		//fairy
-	
-		SDL_Rect fa = animation_fairy->GetCurrentFrame();
-		App->renderer->Blit(basic_sprites, 53, 209, &fa);
-		App->renderer->Blit(basic_sprites, 98, 245, &fa);
-		App->renderer->Blit(basic_sprites, 141, 193, &fa);
-		createfairy = false;
 
-		//springy
-		int sPositionX, sPositionY;
-		App->physics->springy->GetPosition(sPositionX, sPositionY);
-		App->renderer->Blit(springle_tex, sPositionX, sPositionY, NULL, 1.0f);
+	SDL_Rect fr = animation_frog->GetCurrentFrame();
+	App->renderer->Blit(basic_sprites, 205, 199, &fr);
+	App->renderer->Blit(basic_sprites, 292, 215, &fr);
+	App->renderer->Blit(basic_sprites, 247, 251, &fr);
 
-		//kickers
-		App->renderer->Blit(lKiker, 100, 447, NULL, 1.0f, App->physics->l_kicker->GetRotation(), 10, 10); //I finally fixed it, NO TOUCHY! >:c
-		App->renderer->Blit(rKiker, 200, 447, NULL, 1.0f, App->physics->r_kicker->GetRotation(), 62, 9); //Same, NO TOUCHY! >:c
+	//fairy
 
-	App->physics->springy->body->ApplyForce({ 0,-10}, { 0, 0 }, true);
-	
-	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	SDL_Rect fa = animation_fairy->GetCurrentFrame();
+	App->renderer->Blit(basic_sprites, 53, 209, &fa);
+	App->renderer->Blit(basic_sprites, 98, 245, &fa);
+	App->renderer->Blit(basic_sprites, 141, 193, &fa);
+	createfairy = false;
+
+	//springy
+	int sPositionX, sPositionY;
+	App->physics->springy->GetPosition(sPositionX, sPositionY);
+	App->renderer->Blit(springle_tex, sPositionX, sPositionY, NULL, 1.0f);
+
+	//kickers
+	App->renderer->Blit(lKiker, 100, 447, NULL, 1.0f, App->physics->l_kicker->GetRotation(), 10, 10); //I finally fixed it, NO TOUCHY! >:c
+	App->renderer->Blit(rKiker, 200, 447, NULL, 1.0f, App->physics->r_kicker->GetRotation(), 62, 9); //Same, NO TOUCHY! >:c
+
+	App->physics->springy->body->ApplyForce({ 0,-10 }, { 0, 0 }, true);
+
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 8));
 		circles.getLast()->data->listener = this;
@@ -157,12 +167,12 @@ update_status ModuleSceneIntro::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP)
 	{
-		App->physics->springy->body->ApplyForce({ 0,-180}, { 0, 0 }, true);
+		App->physics->springy->body->ApplyForce({ 0,-180 }, { 0, 0 }, true);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		App->physics->r_kicker->body->ApplyForce({ -10, -80}, { 0, 0 }, true);
+		App->physics->r_kicker->body->ApplyForce({ -10, -80 }, { 0, 0 }, true);
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
@@ -181,30 +191,40 @@ update_status ModuleSceneIntro::Update()
 	}
 
 	// Prepare for raycast ------------------------------------------------------
-	
+
 	iPoint mouse;
 	mouse.x = App->input->GetMouseX();
 	mouse.y = App->input->GetMouseY();
-	
+
 
 	fVector normal(0.0f, 0.0f);
 
 	// All draw functions ------------------------------------------------------
 	p2List_item<PhysBody*>* c = circles.getFirst();
 
-	while(c != NULL)
+	while (c != NULL)
 	{
 		int x, y;
 		c->data->GetPosition(x, y);
 		//if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY())) //blits texture only if mouse inside shape
-			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
+		App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
 	}
 	//print score
 	//p2DynArray title("Score: %i Global Score: %i",score, globalScore);
 	//App->window->SetTitle(title.GetString());
+	if (changebody == true)
+	{
+		App->player->player->body->SetType(b2_staticBody);
+		changebody = false;
 
-	
+	}
+	time = SDL_GetTicks();
+	if ((time > lastTime + 3000) && App->player->player->body->GetType() == b2_staticBody)
+	{
+		App->player->player->body->SetType(b2_dynamicBody);
+		App->player->player->body->ApplyForceToCenter({-50,-50}, true);
+	}
 	
 	return UPDATE_CONTINUE;
 }
@@ -227,12 +247,21 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		if (bodyA->body == App->player->player->body && bodyB->body == spaceship->body)
 		{
 			b.categoryBits = OFF;
-			b.maskBits = OFF;
-			
+			b.maskBits = OFF |ON;
+			LOG("COLLIDE");
 			App->player->player->body->GetFixtureList()->SetFilterData(b);
 
+			lastTime = SDL_GetTicks();
+			changebody = true;
+			
 
-
+		}
+		if (bodyA->body == App->player->player->body && bodyB->body == setspaceship->body)
+		{
+			b.categoryBits = ON;
+			b.maskBits = ON | OFF;
+			LOG("COLLIDE 2");
+			App->player->player->body->GetFixtureList()->SetFilterData(b);
 		}
 
 		if (bodyA->body == App->player->player->body && bodyB->body == dead->body)

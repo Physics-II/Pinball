@@ -44,7 +44,7 @@ update_status ModulePlayer::Update()
 		player->listener = App->scene_intro;
 		b2Filter b;
 		b.categoryBits = ON;
-		b.maskBits = ON;
+		b.maskBits = ON|OFF;
 		player->body->GetFixtureList()->SetFilterData(b);
 		createball = false;
 	}
