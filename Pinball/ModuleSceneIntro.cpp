@@ -50,9 +50,9 @@ bool ModuleSceneIntro::Start()
 
 	springle_tex = App->textures->Load("Game/Sprites/springle.png");
 
-	lKiker = App->textures->Load("Sprites/left_kicker.png");
+	lKiker = App->textures->Load("Game/Sprites/left_kicker.png");
 
-	rKiker = App->textures->Load("Sprites/right_kicker.png");
+	rKiker = App->textures->Load("Game/Sprites/right_kicker.png");
 
 	return ret;
 }

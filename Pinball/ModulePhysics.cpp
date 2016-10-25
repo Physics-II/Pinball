@@ -194,31 +194,25 @@ bool ModulePhysics::Start()
 	};
 
 	// Pivot 0, 0
-	int left_kicker[20] = {
-		105, 449,
-		113, 447,
-		126, 458,
-		160, 488,
-		161, 493,
-		156, 497,
-		150, 494,
-		114, 471,
-		101, 460,
-		101, 454
+	int left_kicker[14] = {
+		0, 10,
+		2, 3,
+		10, 1,
+		69, 6,
+		72, 11,
+		68, 17,
+		5, 18
 	};
 
 	// Pivot 0, 0
-	int right_kicker[20] = {
-		262, 448,
-		242, 465,
-		215, 488,
-		215, 493,
-		218, 496,
-		224, 496,
-		252, 477,
-		273, 462,
-		275, 456,
-		271, 450
+	int right_kicker[14] = {
+		72, 5,
+		65, 0,
+		2, 6,
+		0, 12,
+		4, 16,
+		64, 18,
+		72, 14
 	};
 
 	App->physics->CreateRectangleSensor(186, 546, 135, 15);
@@ -232,17 +226,16 @@ bool ModulePhysics::Start()
 	App->physics->CreateStaticChain(0, 0, bar_1, 20);
 	App->physics->CreateStaticChain(0, 0, bar_2, 20);
 
-	l_kicker = App->physics->CreateRectangle(137, 460, 65, 14); //dyn
-	r_kicker = App->physics->CreateRectangle(240, 460, 65, 14); //dyn
+	l_kicker = App->physics->CreateKickers(118, 460, left_kicker, 14); //dyn
+	r_kicker = App->physics->CreateKickers(212, 489, right_kicker, 14); //dyn
 	l_joint = App->physics->CreateStaticCircle(120, 460, 3);
-	r_joint = App->physics->CreateStaticCircle(260, 460, 3);
+	r_joint = App->physics->CreateStaticCircle(255, 460, 3);
 
 	//springy
-	springy = App->physics->CreateRectangle(350, 395, 25, 12);
-	pivotSpringy = App->physics->CreateStaticRectangle(364, 479, 25, 12);
+	springy = App->physics->CreateRectangle(350, 395, 25, 12, b2_dynamicBody);
+	pivotSpringy = App->physics->CreateRectangle(364, 479, 25, 12, b2_staticBody);
 	App->physics->CreatePrismaticJoint(springy,pivotSpringy);
 
-	
 
 	b2RevoluteJointDef Def;
 	Def.bodyA = l_kicker->body;
@@ -251,7 +244,7 @@ bool ModulePhysics::Start()
 	Def.upperAngle = 25 * DEGTORAD;
 	Def.lowerAngle = -25 * DEGTORAD;
 	Def.enableLimit = true;
-	Def.localAnchorA.Set(PIXEL_TO_METERS(-30), PIXEL_TO_METERS(0));
+	Def.localAnchorA.Set(PIXEL_TO_METERS(5), PIXEL_TO_METERS(8));
 	l_fix = (b2RevoluteJoint*)world->CreateJoint(&Def);
 
 	b2RevoluteJointDef Def2;
@@ -261,7 +254,7 @@ bool ModulePhysics::Start()
 	Def2.upperAngle = 30 * DEGTORAD;
 	Def2.lowerAngle = -25 * DEGTORAD;
 	Def2.enableLimit = true;
-	Def2.localAnchorA.Set(PIXEL_TO_METERS(30), PIXEL_TO_METERS(0));
+	Def2.localAnchorA.Set(PIXEL_TO_METERS(65), PIXEL_TO_METERS(10));
 	r_fix = (b2RevoluteJoint*)world->CreateJoint(&Def2);
 
 	return true;
@@ -335,10 +328,10 @@ PhysBody* ModulePhysics::CreateStaticCircle(int x, int y, int radius)
 }
 
 
-PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
+PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, b2BodyType type)
 {
 	b2BodyDef body;
-	body.type = b2_dynamicBody;
+	body.type = type;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
@@ -359,15 +352,25 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 
 	return pbody;
 }
-PhysBody* ModulePhysics::CreateStaticRectangle(int x, int y, int width, int height)
+
+PhysBody* ModulePhysics::CreateKickers(int x, int y, int* points, int size)
 {
 	b2BodyDef body;
-	body.type = b2_staticBody;
+	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
 	b2PolygonShape box;
-	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
+
+	b2Vec2* p = new b2Vec2[size / 2];
+
+	for (uint i = 0; i < size / 2; ++i)
+	{
+		p[i].x = PIXEL_TO_METERS(points[i * 2 + 0]);
+		p[i].y = PIXEL_TO_METERS(points[i * 2 + 1]);
+	}
+
+	box.Set(p, size / 2);
 
 	b2FixtureDef fixture;
 	fixture.shape = &box;
@@ -378,8 +381,7 @@ PhysBody* ModulePhysics::CreateStaticRectangle(int x, int y, int width, int heig
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
 	b->SetUserData(pbody);
-	pbody->width = width * 0.5f;
-	pbody->height = height * 0.5f;
+	pbody->height = pbody->width = 0;
 
 	return pbody;
 }

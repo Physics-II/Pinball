@@ -46,8 +46,8 @@ public:
 	PhysBody* CreateStaticCircle(int x, int y, int radius);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
 	PhysBody* CreateChain(int x, int y, int* points, int size);
-	PhysBody* CreateRectangle(int x, int y, int width, int height);
-	PhysBody* CreateStaticRectangle(int x, int y, int width, int height);
+	PhysBody* CreateRectangle(int x, int y, int width, int height, b2BodyType type);
+	PhysBody* CreateKickers(int x, int y, int* points, int size);
 	PhysBody* CreateStaticChain(int x, int y, int* points, int size);
 	void CreatePrismaticJoint(PhysBody* dynami, PhysBody* stati);
 
