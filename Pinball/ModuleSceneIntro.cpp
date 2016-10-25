@@ -307,44 +307,52 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == frog1->body)
 		{
-			score += 50;
-			b.categoryBits = OFF;
-			b.maskBits = ON | OFF;
+			if (b.categoryBits == ON) score += 50;
+			b.categoryBits = DISABLE;
+			b.maskBits = DISABLE;
+			frog1->body->GetFixtureList()->SetFilterData(b);
 			frog1t=false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == frog2->body)
 		{
-			score += 50;
-			b.categoryBits = OFF;
-			b.maskBits = ON | OFF;
+			if (b.categoryBits == ON) score += 50;
+			b.categoryBits = DISABLE;
+			b.maskBits = DISABLE;
+			frog2->body->GetFixtureList()->SetFilterData(b);
 			frog2t = false;
+			
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == frog3->body)
 		{
-			score += 50;
-			b.categoryBits = OFF;
-			b.maskBits = ON | OFF;
+			if (b.categoryBits == ON) score += 50;
+			b.categoryBits = DISABLE;
+			
+			b.maskBits = DISABLE;
+			frog3->body->GetFixtureList()->SetFilterData(b);
 			frog3t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy1->body)
 		{
-			score += 30;
-			b.categoryBits = ON;
-			b.maskBits = ON | OFF;
+			if (b.categoryBits == ON) score += 30;
+			b.categoryBits = DISABLE;
+			b.maskBits = DISABLE;
+			fairy1->body->GetFixtureList()->SetFilterData(b);
 			fairy1t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy2->body)
 		{
-			score += 30;
-			b.categoryBits = ON;
-			b.maskBits = ON | OFF;
+			if (b.categoryBits == ON) score += 30;
+			b.categoryBits = DISABLE;
+			b.maskBits = DISABLE;
+			fairy2->body->GetFixtureList()->SetFilterData(b);
 			fairy2t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy3->body)
 		{
-			score += 30;
-			b.categoryBits = ON;
-			b.maskBits = ON | OFF;
+			if (b.categoryBits == ON) score += 30;
+			b.categoryBits = DISABLE;
+			b.maskBits = DISABLE;
+			fairy3->body->GetFixtureList()->SetFilterData(b);
 			fairy3t = false;
 		}
 	}

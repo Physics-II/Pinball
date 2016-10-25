@@ -22,7 +22,7 @@ enum update_status
 enum sensor_detector
 {
 	ON = 0x0001,
-	OFF = 0x0002
+	OFF = 0x0002 , DISABLE = 0x0004
 };
 
 // Configuration -----------
