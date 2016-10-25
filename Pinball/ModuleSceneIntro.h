@@ -61,6 +61,6 @@ public:
 	
 	//Score
 	int score = 0, globalScore = 0;
-
+	uint bosscount = 0;
 	
 };

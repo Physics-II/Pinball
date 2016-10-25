@@ -211,6 +211,41 @@ update_status ModuleSceneIntro::Update()
 			App->physics->l_kicker->body->ApplyForce({ -10, -80 }, { 0, 0 }, true);
 		}
 	}
+	if (App->player->lifes == 0)
+	{
+		App->player->createball = false;
+
+		if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+		{
+			App->player->lifes = 3;
+			App->player->createball = true;
+			frog1t = true, frog2t = true, frog3t = true;
+			fairy1t = true, fairy2t = true, fairy3t = true;
+			b2Filter b;
+			b.categoryBits = ON;
+			b.maskBits = ON | OFF;
+			frog1->body->GetFixtureList()->SetFilterData(b);
+			frog2->body->GetFixtureList()->SetFilterData(b);
+			frog3->body->GetFixtureList()->SetFilterData(b);
+			fairy1->body->GetFixtureList()->SetFilterData(b);
+			fairy2->body->GetFixtureList()->SetFilterData(b);
+			fairy3->body->GetFixtureList()->SetFilterData(b);
+		}
+
+		if (frog1t == false && frog2t == false && frog3 == false)
+		{
+			score += 70;
+			frog1t = true, frog2t =true , frog3t = true;
+			bosscount++;
+		}
+		if (fairy1t == false && fairy2t == false && fairy3t == false)
+		{
+			score += 70;
+			fairy1t = true, fairy2t = true, fairy3t = true;
+			bosscount++;
+		}
+	}
+
 
 	// Prepare for raycast ------------------------------------------------------
 
@@ -236,6 +271,11 @@ update_status ModuleSceneIntro::Update()
 	p2SString title("Score: %i Global Score: %i",score, globalScore);
 
 	App->window->SetTitle(title.GetString());
+
+	if (score >= globalScore)
+	{
+		globalScore = score;
+	}
 	if (changebody == true)
 	{
 		App->player->player->body->SetType(b2_staticBody);
@@ -248,17 +288,7 @@ update_status ModuleSceneIntro::Update()
 		App->player->player->body->SetType(b2_dynamicBody);
 		App->player->player->body->ApplyForceToCenter({-50,-50}, true);
 	}
-	if (App->player->lifes == 0)
-	{
-		App->player->createball = false;
-
-		if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
-		{
-			App->player->lifes = 3;
-			App->player->createball = true;
-		}
-	}
-
+	
 	
 	return UPDATE_CONTINUE;
 }
