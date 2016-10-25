@@ -9,6 +9,8 @@
 struct SDL_Texture;
 class PhysBody;
 
+
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -50,7 +52,7 @@ public:
 	//Ball LIFES
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
-	PhysBody* dead , *spaceship;
+	PhysBody* dead , *spaceship ,*fairy1,*fairy2, *fairy3 ,*frog1,*frog2,*frog3;
 
 
 	//Score
