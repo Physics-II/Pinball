@@ -9,6 +9,7 @@
 #include "p2DynArray.h"
 #include "ModuleWindow.h"
 #include "ModulePlayer.h"
+#include "p2String.h"
 
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -232,8 +233,9 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}
 	//print score
-	//p2DynArray title("Score: %i Global Score: %i",score, globalScore);
-	//App->window->SetTitle(title.GetString());
+	p2SString title("Score: %i Global Score: %i",score, globalScore);
+
+	App->window->SetTitle(title.GetString());
 	if (changebody == true)
 	{
 		App->player->player->body->SetType(b2_staticBody);
