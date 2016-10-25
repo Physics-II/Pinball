@@ -306,21 +306,21 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		if (bodyA->body == App->player->player->body && bodyB->body == frog1->body)
 		{
 			score += 50;
-			b.categoryBits = ON;
+			b.categoryBits = OFF;
 			b.maskBits = ON | OFF;
 			frog1t=false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == frog2->body)
 		{
 			score += 50;
-			b.categoryBits = ON;
+			b.categoryBits = OFF;
 			b.maskBits = ON | OFF;
 			frog2t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == frog3->body)
 		{
 			score += 50;
-			b.categoryBits = ON;
+			b.categoryBits = OFF;
 			b.maskBits = ON | OFF;
 			frog3t = false;
 		}
