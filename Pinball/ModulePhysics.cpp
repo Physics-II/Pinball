@@ -221,8 +221,7 @@ bool ModulePhysics::Start()
 		271, 450
 	};
 
-	App->physics->CreateRectangleSensor(186, 546, 135, 15);
-	App->physics->CreateRectangleSensor(189, 145, 50, 11);
+	
 
 	App->physics->CreateStaticChain(0, 0, background_ch, 138);
 	App->physics->CreateStaticChain(0, 0, triangle_1, 20);

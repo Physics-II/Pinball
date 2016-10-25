@@ -8,6 +8,7 @@
 #include "ModulePhysics.h"
 #include "p2DynArray.h"
 #include "ModuleWindow.h"
+#include "ModulePlayer.h"
 
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -50,10 +51,13 @@ bool ModuleSceneIntro::Start()
 
 	springle_tex = App->textures->Load("Game/Sprites/springle.png");
 
-	lKiker = App->textures->Load("Sprites/left_kicker.png");
+	lKiker = App->textures->Load("Game/Sprites/left_kicker.png");
 
-	rKiker = App->textures->Load("Sprites/right_kicker.png");
+	rKiker = App->textures->Load("Game/Sprites/right_kicker.png");
 
+	dead = App->physics->CreateRectangleSensor(186, 546, 135, 15);
+	spaceship = App->physics->CreateRectangleSensor(189, 145, 50, 11);
+	spaceship->listener=this;
 	return ret;
 }
 
@@ -162,6 +166,8 @@ update_status ModuleSceneIntro::Update()
 	//print score
 	//p2DynArray title("Score: %i Global Score: %i",score, globalScore);
 	//App->window->SetTitle(title.GetString());
+
+	
 	
 	return UPDATE_CONTINUE;
 }
@@ -173,15 +179,19 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	App->audio->PlayFx(bonus_fx);
 
 	
-	if(bodyA)
+	if (bodyA != nullptr && bodyB != nullptr)
 	{
-		bodyA->GetPosition(x, y);
-		App->renderer->DrawCircle(x, y, 50, 100, 100, 100);
+		if (bodyA->body == App->player->player->body && bodyB->body == spaceship->body)
+		{
+			LOG("Sensor active");
+		}
 	}
 
-	if(bodyB)
+	if (bodyA != nullptr && bodyB != nullptr)
 	{
-		bodyB->GetPosition(x, y);
-		App->renderer->DrawCircle(x, y, 50, 100, 100, 100);
+		if (bodyA->body == App->player->player->body && bodyB->body == dead->body)
+		{
+			LOG("Sensor active 2");
+		}
 	}
 }

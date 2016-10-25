@@ -50,6 +50,8 @@ public:
 	//Ball LIFES
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
+	PhysBody* dead , *spaceship;
+
 
 	//Score
 	int score = 0, globalScore = 0;
