@@ -62,6 +62,9 @@
     <ClInclude Include="ModuleScore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="p2String.h">
+      <Filter>Header Files\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
