@@ -5,6 +5,7 @@
 #include "ModuleTextures.h"
 #include "ModulePhysics.h"
 #include "ModuleInput.h"
+#include "ModuleSceneIntro.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -20,7 +21,8 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 	bool ret = true;
-	graphics = App->textures->Load("Sprites/Ball_PNG.png");
+	graphics = App->textures->Load("Game/Sprites/Ball_PNG.png");
+	
 	return ret;
 }
 
@@ -39,6 +41,7 @@ update_status ModulePlayer::Update()
 	if (createball == true)
 	{
 		player = App->physics->CreateCircle(354, 311, 8);
+		player->listener = App->scene_intro;
 		createball = false;
 	}
 	int playerPositionX, playerPositionY;
@@ -48,6 +51,7 @@ update_status ModulePlayer::Update()
 	{
 		App->renderer->Blit(graphics,(390+j),220);
 	}
+
 	
 	return UPDATE_CONTINUE;
 }
