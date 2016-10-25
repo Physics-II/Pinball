@@ -246,6 +246,17 @@ update_status ModuleSceneIntro::Update()
 		App->player->player->body->SetType(b2_dynamicBody);
 		App->player->player->body->ApplyForceToCenter({-50,-50}, true);
 	}
+	if (App->player->lifes == 0)
+	{
+		App->player->createball = false;
+
+		if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+		{
+			App->player->lifes = 3;
+			App->player->createball = true;
+		}
+	}
+
 	
 	return UPDATE_CONTINUE;
 }
@@ -315,21 +326,21 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy1->body)
 		{
-			score += 50;
+			score += 30;
 			b.categoryBits = ON;
 			b.maskBits = ON | OFF;
 			fairy1t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy2->body)
 		{
-			score += 50;
+			score += 30;
 			b.categoryBits = ON;
 			b.maskBits = ON | OFF;
 			fairy2t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy3->body)
 		{
-			score += 50;
+			score += 30;
 			b.categoryBits = ON;
 			b.maskBits = ON | OFF;
 			fairy3t = false;
