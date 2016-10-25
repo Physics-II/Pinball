@@ -52,7 +52,8 @@ public:
 	//Ball LIFES
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
-	PhysBody* dead , *spaceship ,*fairy1,*fairy2, *fairy3 ,*frog1,*frog2,*frog3;
+	PhysBody* dead , *spaceship ,*fairy1,*fairy2, *fairy3 ,*frog1,*frog2,*frog3, *sensor_2 ;
+	bool ret = true; 
 
 
 	//Score

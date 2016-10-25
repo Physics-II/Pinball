@@ -42,6 +42,10 @@ update_status ModulePlayer::Update()
 	{
 		player = App->physics->CreateCircle(354, 311, 8);
 		player->listener = App->scene_intro;
+		b2Filter b;
+		b.categoryBits = ON;
+		b.maskBits = ON;
+		player->body->GetFixtureList()->SetFilterData(b);
 		createball = false;
 	}
 	int playerPositionX, playerPositionY;

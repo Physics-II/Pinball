@@ -55,25 +55,50 @@ bool ModuleSceneIntro::Start()
 
 	rKiker = App->textures->Load("Game/Sprites/right_kicker.png");
 
+
 	dead = App->physics->CreateRectangleSensor(186, 546, 135, 15);
 	dead->listener = this;
+	
+	// create filter and spaceship sensor
 	spaceship = App->physics->CreateRectangleSensor(189, 145, 50, 11);
 	spaceship->listener=this;
+	b2Filter b;
+	b.categoryBits = ON;
+	b.maskBits = ON	;
+	spaceship->body->GetFixtureList()->SetFilterData(b);
 
+	b.categoryBits = ON;
+	b.maskBits = ON|OFF;
+	//sensor 2
+	sensor_2 = App->physics->CreateRectangleSensor(229, 210, 49, 23);
+	frog1->listener = this;
+	frog1->body->GetFixtureList()->SetFilterData(b);
+	//frog 1
 	frog1 = App->physics->CreateRectangleSensor(229, 210, 49, 23);
 	frog1->listener = this;
+	frog1->body->GetFixtureList()->SetFilterData(b);
+	//frog2
 	frog2 = App->physics->CreateRectangleSensor(316, 226, 49, 23);
 	frog2->listener = this;
+	frog2->body->GetFixtureList()->SetFilterData(b);
+	//frog3
 	frog3 = App->physics->CreateRectangleSensor(271, 262, 49, 23);
 	frog3->listener = this;
-
+	frog3->body->GetFixtureList()->SetFilterData(b);
+	//fairy1
 	fairy1 = App->physics->CreateRectangleSensor(65, 227, 25, 40);
 	fairy1->listener = this;
+	fairy1->body->GetFixtureList()->SetFilterData(b);
+	//fairy2
 	fairy2 = App->physics->CreateRectangleSensor(110, 264, 25, 40);
 	fairy2->listener = this;
+	fairy2->body->GetFixtureList()->SetFilterData(b);
+	//fairy3
 	fairy3 = App->physics->CreateRectangleSensor(154, 212, 25, 40);
 	fairy3->listener = this;
+	frog3->body->GetFixtureList()->SetFilterData(b);
 
+	
 	return ret;
 }
 
@@ -188,13 +213,25 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	int x, y;
 	float x2, y2;
+
+	
+	
 	App->audio->PlayFx(bonus_fx);
 
 	
 	if (bodyA != nullptr && bodyB != nullptr)
 	{
+		b2Filter b;
+		b.categoryBits = ON;
+		b.maskBits = ON;
 		if (bodyA->body == App->player->player->body && bodyB->body == spaceship->body)
 		{
+			b.categoryBits = OFF;
+			b.maskBits = OFF;
+			
+			App->player->player->body->GetFixtureList()->SetFilterData(b);
+
+
 
 		}
 
