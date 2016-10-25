@@ -56,7 +56,7 @@ bool ModuleSceneIntro::Start()
 	rKiker = App->textures->Load("Game/Sprites/right_kicker.png");
 
 
-	dead = App->physics->CreateRectangleSensor(186, 546, 135, 15);
+	dead = App->physics->CreateRectangleSensor(186, 580, 135, 15);
 	dead->listener = this;
 
 	 time = SDL_GetTicks();
@@ -131,16 +131,37 @@ update_status ModuleSceneIntro::Update()
 		//frog
 
 	SDL_Rect fr = animation_frog->GetCurrentFrame();
-	App->renderer->Blit(basic_sprites, 205, 199, &fr);
-	App->renderer->Blit(basic_sprites, 292, 215, &fr);
-	App->renderer->Blit(basic_sprites, 247, 251, &fr);
+	if (frog1t == true)
+	{
+		App->renderer->Blit(basic_sprites, 205, 199, &fr);
+	}
+	if(frog2t == true)
+	{
+		App->renderer->Blit(basic_sprites, 292, 215, &fr);
+	}
+	if (frog3t == true)
+	{
+		App->renderer->Blit(basic_sprites, 247, 251, &fr);
+	}
+	
+	
 
 	//fairy
 
 	SDL_Rect fa = animation_fairy->GetCurrentFrame();
-	App->renderer->Blit(basic_sprites, 53, 209, &fa);
-	App->renderer->Blit(basic_sprites, 98, 245, &fa);
-	App->renderer->Blit(basic_sprites, 141, 193, &fa);
+	if (fairy1t == true)
+	{
+		App->renderer->Blit(basic_sprites, 53, 209, &fa);
+	}
+	if (fairy2t == true)
+	{
+		App->renderer->Blit(basic_sprites, 98, 245, &fa);
+	}
+	if (fairy3t == true)
+	{
+		App->renderer->Blit(basic_sprites, 141, 193, &fa);
+	}
+	
 	createfairy = false;
 
 	//springy
@@ -266,31 +287,52 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		if (bodyA->body == App->player->player->body && bodyB->body == dead->body)
 		{
+			
+			App->player->createball = true;
+			App->player->lifes -= 1;
 
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == frog1->body)
 		{
-
+			score += 50;
+			b.categoryBits = ON;
+			b.maskBits = ON | OFF;
+			frog1t=false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == frog2->body)
 		{
-
+			score += 50;
+			b.categoryBits = ON;
+			b.maskBits = ON | OFF;
+			frog2t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == frog3->body)
 		{
-
+			score += 50;
+			b.categoryBits = ON;
+			b.maskBits = ON | OFF;
+			frog3t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy1->body)
 		{
-
+			score += 50;
+			b.categoryBits = ON;
+			b.maskBits = ON | OFF;
+			fairy1t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy2->body)
 		{
-
+			score += 50;
+			b.categoryBits = ON;
+			b.maskBits = ON | OFF;
+			fairy2t = false;
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy3->body)
 		{
-
+			score += 50;
+			b.categoryBits = ON;
+			b.maskBits = ON | OFF;
+			fairy3t = false;
 		}
 	}
 }

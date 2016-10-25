@@ -41,7 +41,8 @@ public:
 	p2Point<int> ray;
 	bool ray_on;
 	bool victory;
-	bool createfrog=true, createfairy= true;
+	bool createfrog=true, createfairy= true, frog1t= true, frog2t = true , frog3t = true,fairy1t=true,fairy2t= true, fairy3t= true;
+
 	//For animation the frog
 	Animation frog;
 	Animation* animation_frog = &frog;
