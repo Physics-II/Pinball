@@ -113,13 +113,9 @@ update_status ModuleSceneIntro::Update()
 		App->physics->springy->GetPosition(sPositionX, sPositionY);
 		App->renderer->Blit(springle_tex, sPositionX, sPositionY, NULL, 1.0f);
 
-		//kikers
-		int lKx, lKy , rKx, rKy;
-		App->physics->l_kicker->GetPosition(lKx, lKy);
-		App->renderer->Blit(lKiker, lKx, lKy, NULL, 1.0f,App->physics->l_kicker->GetRotation());
-
-		App->physics->r_kicker->GetPosition(rKx, rKy);
-		App->renderer->Blit(rKiker, rKx, rKy, NULL, 1.0f, App->physics->r_kicker->GetRotation());
+		//kickers
+		App->renderer->Blit(lKiker, 100, 447, NULL, 1.0f, App->physics->l_kicker->GetRotation(), 10, 10); //I finally fixed it, NO TOUCHY! >:c
+		App->renderer->Blit(rKiker, 200, 447, NULL, 1.0f, App->physics->r_kicker->GetRotation(), 62, 9); //Same, NO TOUCHY! >:c
 
 	App->physics->springy->body->ApplyForce({ 0,-10}, { 0, 0 }, true);
 	
@@ -136,26 +132,26 @@ update_status ModuleSceneIntro::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP)
 	{
-		App->physics->springy->body->ApplyForce({ 0,-200}, { 0, 0 }, true);
+		App->physics->springy->body->ApplyForce({ 0,-180}, { 0, 0 }, true);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		App->physics->r_kicker->body->ApplyForce({ -10, -100}, { 0, 0 }, true);
+		App->physics->r_kicker->body->ApplyForce({ -10, -80}, { 0, 0 }, true);
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
-			App->physics->r_kicker->body->ApplyForce({ 10, 100 }, { 0, 0 }, true);
+			App->physics->r_kicker->body->ApplyForce({ 10, 80 }, { 0, 0 }, true);
 		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		App->physics->l_kicker->body->ApplyForce({ 10, 100 }, { 0, 0 }, true);
+		App->physics->l_kicker->body->ApplyForce({ 10, 80 }, { 0, 0 }, true);
 
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 		{
-			App->physics->l_kicker->body->ApplyForce({ -10, -100 }, { 0, 0 }, true);
+			App->physics->l_kicker->body->ApplyForce({ -10, -80 }, { 0, 0 }, true);
 		}
 	}
 

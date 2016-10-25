@@ -116,30 +116,29 @@ bool ModulePhysics::Start()
 	};
 
 	// Pivot 0, 0
-	int bar_1[20] = {
-		318, 431,
-		317, 335,
-		309, 343,
-		307, 418,
-		263, 448,
-		262, 455,
-		266, 460,
-		273, 460,
-		298, 444,
-		311, 436
+	int left_bar[18] = {
+		56, 335,
+		68, 343,
+		68, 416,
+		109, 444,
+		102, 446,
+		98, 450,
+		98, 458,
+		56, 431,
+		56, 342
 	};
 
-	int bar_2[20] = {
-		56, 337,
-		56, 432,
-		103, 462,
-		110, 463,
-		114, 462,
-		114, 458,
-		113, 449,
-		67, 418,
-		67, 346,
-		61, 337
+	// Pivot 0, 0
+	int right_bar[18] = {
+		318, 335,
+		307, 344,
+		307, 416,
+		269, 444,
+		273, 447,
+		276, 452,
+		278, 458,
+		318, 431,
+		318, 340
 	};
 
 	// Pivot 0, 0
@@ -222,13 +221,13 @@ bool ModulePhysics::Start()
 	App->physics->CreateStaticChain(0, 0, triangle_2, 16);
 	App->physics->CreateStaticChain(0, 0, ovni, 44);
 
-	App->physics->CreateStaticChain(0, 0, bar_1, 20);
-	App->physics->CreateStaticChain(0, 0, bar_2, 20);
+	App->physics->CreateStaticChain(0, 0, left_bar, 18);
+	App->physics->CreateStaticChain(0, 0, right_bar, 18);
 
-	l_kicker = App->physics->CreateKickers(118, 460, left_kicker, 14); //dyn
-	r_kicker = App->physics->CreateKickers(212, 489, right_kicker, 14); //dyn
-	l_joint = App->physics->CreateStaticCircle(120, 460, 3);
-	r_joint = App->physics->CreateStaticCircle(255, 460, 3);
+	l_kicker = App->physics->CreateKickers(106, 455, left_kicker, 14); //dyn
+	r_kicker = App->physics->CreateKickers(227, 475, right_kicker, 14); //dyn
+	l_joint = App->physics->CreateStaticCircle(110, 457, 3);
+	r_joint = App->physics->CreateStaticCircle(265, 457, 3);
 
 	//springy
 	springy = App->physics->CreateRectangle(350, 395, 25, 12, b2_dynamicBody);
@@ -243,7 +242,7 @@ bool ModulePhysics::Start()
 	Def.upperAngle = 25 * DEGTORAD;
 	Def.lowerAngle = -25 * DEGTORAD;
 	Def.enableLimit = true;
-	Def.localAnchorA.Set(PIXEL_TO_METERS(5), PIXEL_TO_METERS(8));
+	Def.localAnchorA.Set(PIXEL_TO_METERS(10), PIXEL_TO_METERS(8));
 	l_fix = (b2RevoluteJoint*)world->CreateJoint(&Def);
 
 	b2RevoluteJointDef Def2;
@@ -253,7 +252,7 @@ bool ModulePhysics::Start()
 	Def2.upperAngle = 30 * DEGTORAD;
 	Def2.lowerAngle = -25 * DEGTORAD;
 	Def2.enableLimit = true;
-	Def2.localAnchorA.Set(PIXEL_TO_METERS(65), PIXEL_TO_METERS(10));
+	Def2.localAnchorA.Set(PIXEL_TO_METERS(65), PIXEL_TO_METERS(9));
 	r_fix = (b2RevoluteJoint*)world->CreateJoint(&Def2);
 
 	return true;
