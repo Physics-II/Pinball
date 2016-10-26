@@ -56,6 +56,8 @@ public:
 	PhysBody* l_joint;
 	PhysBody* r_joint;
 	
+	PhysBody* triangle_left;
+	PhysBody* triangle_right;
 
 	b2RevoluteJoint* l_fix;
 	b2RevoluteJoint* r_fix;
@@ -65,7 +67,6 @@ public:
 
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
-	void Kickers();
 
 private:
 	

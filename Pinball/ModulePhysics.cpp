@@ -216,27 +216,27 @@ bool ModulePhysics::Start()
 
 	
 
-	App->physics->CreateStaticChain(0, 0, background_ch, 138);
-	App->physics->CreateStaticChain(0, 0, triangle_1, 20);
-	App->physics->CreateStaticChain(0, 0, triangle_2, 16);
-	App->physics->CreateStaticChain(0, 0, ovni, 44);
+	CreateStaticChain(0, 0, background_ch, 138);
+	triangle_left = CreateStaticChain(0, 0, triangle_1, 20);
+	triangle_right = CreateStaticChain(0, 0, triangle_2, 16);
+	CreateStaticChain(0, 0, ovni, 44);
 
-	App->physics->CreateStaticChain(0, 0, left_bar, 18);
-	App->physics->CreateStaticChain(0, 0, right_bar, 18);
+	CreateStaticChain(0, 0, left_bar, 18);
+	CreateStaticChain(0, 0, right_bar, 18);
 
-	l_kicker = App->physics->CreateKickers(106, 455, left_kicker, 14); //dyn
-	r_kicker = App->physics->CreateKickers(227, 475, right_kicker, 14); //dyn
-	l_joint = App->physics->CreateStaticCircle(110, 457, 3);
-	r_joint = App->physics->CreateStaticCircle(265, 457, 3);
+	l_kicker = CreateKickers(106, 455, left_kicker, 14); //dyn
+	r_kicker = CreateKickers(227, 475, right_kicker, 14); //dyn
+	l_joint = CreateStaticCircle(110, 457, 3);
+	r_joint = CreateStaticCircle(265, 457, 3);
 
 
 	//springy
 	b2Filter b;
 	b.categoryBits = ON;
 	b.maskBits = ON | OFF;
-	springy = App->physics->CreateRectangle(350, 395, 25, 12, b2_dynamicBody);
+	springy = CreateRectangle(350, 395, 25, 12, b2_dynamicBody);
 	springy->body->GetFixtureList()->SetFilterData(b);
-	pivotSpringy = App->physics->CreateRectangle(364, 479, 25, 12, b2_staticBody);
+	pivotSpringy = CreateRectangle(364, 479, 25, 12, b2_staticBody);
 	pivotSpringy->body->GetFixtureList()->SetFilterData(b);
 	App->physics->CreatePrismaticJoint(springy,pivotSpringy);
 

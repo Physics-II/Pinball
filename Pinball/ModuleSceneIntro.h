@@ -40,9 +40,9 @@ public:
 	uint bonus_fx;
 	p2Point<int> ray;
 	bool ray_on;
-	bool victory;
-	bool createfrog=true, createfairy= true, frog1t= true, frog2t = true , frog3t = true,fairy1t=true,fairy2t= true, fairy3t= true;
-	bool nboss = false, n1 = false, n2 = false, n3 = false, n4 = false, n5 = false, n6 = false, n7 = false, n8 = false, n9 = false , n10 = false;
+	bool victory = false;
+	bool createfrog = true, createfairy = true, createboss = false, frog1t = true, frog2t = true, frog3t = true, fairy1t = true, fairy2t = true, fairy3t = true, bosst = false;
+	bool nboss = false, n1 = false, n2 = false, n3 = false, n4 = false, n5 = false, n6 = false, n7 = false, n8 = false, n9 = false, n10 = false, end = false;;
 
 	Animation num1, num2, num3, num4, num5, num6, num7, num8, num9, num10, numboss;
 	Animation *animation_num1 = &num1, *animation_num2 = &num2, *animation_num3 = &num3, *animation_num4 = &num4, *animation_num5 = &num5, *animation_num6 = &num6, *animation_num7 = &num7, *animation_num8 = &num8, *animation_num9 = &num9, *animation_num10 = &num10, *animation_numboss = &numboss;
@@ -54,12 +54,17 @@ public:
 	Animation fairy;
 	Animation* animation_fairy = &fairy;
 	SDL_Rect fairyRect;
+
+	uint boss_hits = 0;
+
 	//Ball LIFES
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
 	PhysBody* dead , *spaceship, *setspaceship,*fairy1,*fairy2, *fairy3 ,*frog1,*frog2,*frog3, *sensor_2, *KingFrog ;
 	bool ret = true , changebody; 
-	
+
+
+
 	//sounds
 	uint kicker_sound;
 	uint game_loop_music;

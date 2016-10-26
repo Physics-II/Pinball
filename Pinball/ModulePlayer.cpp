@@ -24,7 +24,6 @@ bool ModulePlayer::Start()
 	bool ret = true;
 	graphics = App->textures->Load("Game/Sprites/Ball_PNG.png");
 	ball_spawn_sound = App->audio->LoadFx("Game/Sounds/ball_spawn.wav");
-	
 	return ret;
 }
 
@@ -51,6 +50,14 @@ update_status ModulePlayer::Update()
 		player->body->GetFixtureList()->SetFilterData(b);
 		createball = false;
 	}
+
+	player->body->SetBullet(true);
+
+	if ((player->body->GetPosition().x > 364) && (player->body->GetPosition().y > 280)) //sets restitution only if ball has departed
+	{
+		player->body->GetFixtureList()->SetRestitution(0.3);
+	}
+
 	int playerPositionX, playerPositionY;
 	player->GetPosition(playerPositionX,playerPositionY);
 	App->renderer->Blit(graphics, playerPositionX, playerPositionY, NULL, 1.0f, player->GetRotation());

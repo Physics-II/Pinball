@@ -174,8 +174,13 @@ bool ModuleSceneIntro::Start()
 	fairy3 = App->physics->CreateRectangleSensor(154, 212, 25, 40);
 	fairy3->listener = this;
 	frog3->body->GetFixtureList()->SetFilterData(b);
+	//boss
+	b.categoryBits = DISABLE;
+	b.maskBits = DISABLE;
+	KingFrog = App->physics->CreateRectangleSensor(189, 192, 107, 47);
+	KingFrog->listener = this;
+	KingFrog->body->GetFixtureList()->SetFilterData(b);
 
-	
 	return ret;
 }
 
@@ -199,6 +204,7 @@ update_status ModuleSceneIntro::Update()
 	SDL_Rect number;
 	if (n1 == true)
 	{
+		time += 30;
 		number = animation_num1->GetCurrentFrame();
 		App->renderer->Blit(basic_sprites, 171, 282, &number);
 	}
@@ -265,16 +271,16 @@ update_status ModuleSceneIntro::Update()
 		App->renderer->Blit(basic_sprites, 247, 251, &fr);
 	}
 	
-
-	if (nboss ==false)
+	//boss
+	if (nboss == true)
 	{
 		SDL_Rect bss = animation_numboss->GetCurrentFrame();
 		App->renderer->Blit(basic_sprites, 138, 167, &bss);
 	}
-	//fairy
 
+	//fairy
 	SDL_Rect fa = animation_fairy->GetCurrentFrame();
-	if (fairy1t == true)
+	if (fairy1t == true) //if false, they don't blit
 	{
 		App->renderer->Blit(basic_sprites, 53, 209, &fa);
 	}
@@ -300,11 +306,6 @@ update_status ModuleSceneIntro::Update()
 
 	App->physics->springy->body->ApplyForce({ 0,-10 }, { 0, 0 }, true);
 
-	//if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	//{
-	//	circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 8));
-	//	circles.getLast()->data->listener = this;
-	//}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
@@ -342,7 +343,7 @@ update_status ModuleSceneIntro::Update()
 	}
 
 
-	//in case if death
+	//in case of death
 	if (App->player->lifes == 0)
 	{
 		App->player->createball = false;
@@ -363,6 +364,12 @@ update_status ModuleSceneIntro::Update()
 			fairy1->body->GetFixtureList()->SetFilterData(b);
 			fairy2->body->GetFixtureList()->SetFilterData(b);
 			fairy3->body->GetFixtureList()->SetFilterData(b);
+
+			b.categoryBits = DISABLE;
+			b.maskBits = DISABLE;
+			KingFrog->body->GetFixtureList()->SetFilterData(b);
+			victory = false;
+			score = 0;
 		}
 
 		
@@ -390,7 +397,16 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}
 	//print score
-	if( n10 == true ) //mision10 (last)
+	
+	if (victory == true && n10==true)
+	{
+		App->player->lifes = 1;
+		App->audio->PlayFx(win_sound);
+		p2SString title("YOU WIN!!! Press B to play again~ , Score: %i Global Score: %i", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+
+	if( n10 == true && victory == false) //mision10 (last)
 	{
 		p2SString title("Score: %i Global Score: %i Mission: die, and kill the boss when it appears", score, globalScore);
 		App->window->SetTitle(title.GetString());
@@ -470,13 +486,6 @@ update_status ModuleSceneIntro::Update()
 
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	int x, y;
-	float x2, y2;
-
-	
-	
-	App->audio->PlayFx(bonus_fx);
-
 	
 	if (bodyA != nullptr && bodyB != nullptr)
 	{
@@ -518,6 +527,8 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			b.maskBits = DISABLE;
 			frog1->body->GetFixtureList()->SetFilterData(b);
 			frog1t=false;
+
+			
 
 			App->audio->PlayFx(enemy_hit);
 			App->audio->PlayFx(enemy_kill);
@@ -584,6 +595,39 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			App->audio->PlayFx(enemy_hit);
 			App->audio->PlayFx(enemy_kill);
 		}
+
+		if (bodyA->body == App->player->player->body && bodyB->body == App->physics->triangle_left->body)
+		{
+			App->player->player->body->ApplyForceToCenter({ 20, -150 }, true);
+			App->audio->PlayFx(triangle_sound);
+		}
+
+		if (bodyA->body == App->player->player->body && bodyB->body == App->physics->triangle_right->body)
+		{
+			App->player->player->body->ApplyForceToCenter({ 20, -150 }, true);
+			App->audio->PlayFx(triangle_sound);
+		}
+
+		if (bodyA->body == App->player->player->body && bodyB->body == KingFrog->body)
+		{
+			frog1t = false, frog2t = false, frog3t = false;
+			fairy1t = false, fairy2t = false, fairy3t = false;
+
+			boss_hits++;
+			if (b.categoryBits == ON) score += 100;
+			App->player->player->body->ApplyForceToCenter({ 20, 40 }, true);
+			if (boss_hits == 3)
+			{
+				b.categoryBits = DISABLE;
+				b.maskBits = DISABLE;
+				KingFrog->body->GetFixtureList()->SetFilterData(b);
+				nboss = false, victory =true;
+				//n1 = false, n2 = false, n3 = false, n4 = false, n5 = false, n6 = false, n7 = false, n8 = false, n9 = false, n10 = false;
+			}
+
+			App->audio->PlayFx(king_frog_hit);
+		}
+
 	}
 }
 void ModuleSceneIntro::ScoreNumber(int score)
@@ -649,9 +693,19 @@ void ModuleSceneIntro::ScoreNumber(int score)
 	if (changebody == true && n9 == true)
 	{
 		n10 = true;
-	 }
+	
+	}
 	if (n10 == true && App->player->createball == true)
 	{
 		nboss = true;
+		b2Filter b;
+		b.categoryBits = ON;
+		b.maskBits = ON | OFF;
+		KingFrog->body->GetFixtureList()->SetFilterData(b);
+		App->audio->PlayFx(king_frog_spawn);
+	}
+	if (nboss == true && bosst == false)
+	{
+		end == true;
 	}
 }
