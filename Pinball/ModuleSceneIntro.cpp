@@ -324,6 +324,7 @@ update_status ModuleSceneIntro::Update()
 			App->player->createball = true;
 			frog1t = true, frog2t = true, frog3t = true;
 			fairy1t = true, fairy2t = true, fairy3t = true;
+			n1 = false, n2 = false, n3 = false, n4 = false, n5 = false, n6 = false, n7 = false, n8 = false, n9 = false, n10 = false, nboss = false;
 			b2Filter b;
 			b.categoryBits = ON;
 			b.maskBits = ON | OFF;
@@ -516,5 +517,35 @@ void ModuleSceneIntro::ScoreNumber(int score)
 		n4 = true;
 	}
 	
+	if (score > 1000 && n4 == true)
+	{
+		n5 = true;
+	}
+	if (fairy2t == false && frog2t == false && n5 == true)
+	{
+		n6 = true;
+	}
 
+	if (fairy3t == false && frog3t == false && n6 == true)
+	{
+		n7 = true;
+	}
+	
+	if ( fairy1t == false && fairy2t == false && frog2t == false  && frog3t == false && n7 == true)
+	{
+		n8 = true;
+	}
+
+	if (n8 == true && score > 3000)
+	{
+		n9 = true;
+	}
+	if (changebody == true && n9 == true)
+	{
+		n10 = true;
+	 }
+	if (n10 == true && App->player->createball == true)
+	{
+		nboss = true;
+	}
 }
