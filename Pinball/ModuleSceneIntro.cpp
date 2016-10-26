@@ -264,7 +264,9 @@ update_status ModuleSceneIntro::Update()
 	{
 		App->renderer->Blit(basic_sprites, 247, 251, &fr);
 	}
-	if (nboss == true)
+	
+
+	if (nboss ==false)
 	{
 		SDL_Rect bss = animation_numboss->GetCurrentFrame();
 		App->renderer->Blit(basic_sprites, 138, 167, &bss);

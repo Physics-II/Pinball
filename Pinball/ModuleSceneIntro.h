@@ -57,9 +57,9 @@ public:
 	//Ball LIFES
 	SDL_Rect ballLife;
 	//BALL (PLAYER)
-	PhysBody* dead , *spaceship, *setspaceship,*fairy1,*fairy2, *fairy3 ,*frog1,*frog2,*frog3, *sensor_2 ;
+	PhysBody* dead , *spaceship, *setspaceship,*fairy1,*fairy2, *fairy3 ,*frog1,*frog2,*frog3, *sensor_2, *KingFrog ;
 	bool ret = true , changebody; 
-
+	
 	//sounds
 	uint kicker_sound;
 	uint game_loop_music;
