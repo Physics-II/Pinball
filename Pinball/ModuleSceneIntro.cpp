@@ -79,6 +79,11 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	num10.PushBack({ 417,191,26,22 });
 	num10.PushBack({ 416,347,26,22 });
 	num10.speed = 0.05;
+
+	numboss.PushBack({ 232,161,105,43});
+	numboss.PushBack({ 231,220,105,43});
+	numboss.PushBack({ 231,282,105,43 });
+	numboss.speed = 0.05;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -259,8 +264,11 @@ update_status ModuleSceneIntro::Update()
 	{
 		App->renderer->Blit(basic_sprites, 247, 251, &fr);
 	}
-	
-
+	if (nboss == true)
+	{
+		SDL_Rect bss = animation_numboss->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 138, 167, &bss);
+	}
 	//fairy
 
 	SDL_Rect fa = animation_fairy->GetCurrentFrame();
@@ -380,9 +388,62 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}
 	//print score
-	p2SString title("Score: %i Global Score: %i",score, globalScore);
-
-	App->window->SetTitle(title.GetString());
+	if( n10 == true ) //mision10
+	{
+		p2SString title("Score: %i Global Score: %i Mission: die, and kill the boss when it appears", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n9 == true && n10 == false) //mision9
+	{
+		p2SString title("Score: %i Global Score: %i Mission: Use the ovni", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n8 == true && n9 == false) //mision9
+	{
+		p2SString title("Score: %i Global Score: %i Mission: Score > 3000", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n7 == true && n8 == false) //mision8
+	{
+		p2SString title("Score: %i Global Score: %i Mission: kill 2 fairies", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n6 == true && n7 == false )// mision 7
+	{
+		p2SString title("Score: %i Global Score: %i Mission: kill the rightmost fairy and frog", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n5 == true  && n6 == false )// mision6
+	{
+		p2SString title("Score: %i Global Score: %i Mision: kill the middle fairy and frog" , score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n4 == true && n5 == false)// mision5
+	{
+		p2SString title("Score: %i Global Score: %i Mission: score > 1000", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n3 == true && n4 == false)//mision4
+	{
+		p2SString title("Score: %i Global Score: %i Mission: kill the leftmost fairy and frog", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n2 == true && n3 == false)//mision3
+	{
+		p2SString title("Score: %i Global Score: %i Mission: score > 500", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n1 == true && n2 == false)//mision2
+	{
+		p2SString title("Score: %i Global Score: %i Mission: destroy all fairies", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	else if (n1 == false)//mision1
+	{
+		p2SString title("Score: %i Global Score: %i Mission: destroy all frogs", score, globalScore);
+		App->window->SetTitle(title.GetString());
+	}
+	
 
 	if (score >= globalScore)
 	{
@@ -550,7 +611,7 @@ void ModuleSceneIntro::ScoreNumber(int score)
 		n7 = true;
 	}
 	
-	if ( fairy1t == false && fairy2t == false && frog2t == false  && frog3t == false && n7 == true)
+	if ( (fairy1t == false && fairy2t == false  || fairy2t == false && fairy3t == false || fairy1t == false && fairy3t == false) && n7 == true)
 	{
 		n8 = true;
 	}
