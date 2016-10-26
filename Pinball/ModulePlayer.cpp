@@ -6,6 +6,7 @@
 #include "ModulePhysics.h"
 #include "ModuleInput.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleAudio.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -22,6 +23,7 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 	bool ret = true;
 	graphics = App->textures->Load("Game/Sprites/Ball_PNG.png");
+	ball_spawn_sound = App->audio->LoadFx("Game/Sounds/ball_spawn.wav");
 	
 	return ret;
 }
@@ -40,6 +42,7 @@ update_status ModulePlayer::Update()
 {
 	if (createball == true)
 	{
+		App->audio->PlayFx(ball_spawn_sound);
 		player = App->physics->CreateCircle(354, 311, 8);
 		player->listener = App->scene_intro;
 		b2Filter b;

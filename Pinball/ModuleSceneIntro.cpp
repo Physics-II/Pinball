@@ -106,6 +106,17 @@ bool ModuleSceneIntro::Start()
 
 	rKiker = App->textures->Load("Game/Sprites/right_kicker.png");
 
+	//sound load
+	game_loop_music = App->audio->PlayMusic("Game/Sounds/main_music.ogg");
+	
+	kicker_sound = App->audio->LoadFx("Game/Sounds/flipper_sound.wav");
+	spaceship_sound = App->audio->LoadFx("Game/Sounds/ovni_sound.wav");
+	enemy_hit = App->audio->LoadFx("Game/Sounds/enemy_hit.wav");
+	enemy_kill = App->audio->LoadFx("Game/Sounds/enemy_kill.wav");
+	king_frog_spawn = App->audio->LoadFx("Game/Sounds/king_frog.wav");
+	king_frog_hit = App->audio->LoadFx("Game/Sounds/boss_hit.wav");
+	triangle_sound = App->audio->LoadFx("Game/Sounds/triangle_sound.wav");
+	win_sound = App->audio->LoadFx("Game/Sounds/win_sound.wav");
 
 	dead = App->physics->CreateRectangleSensor(186, 580, 135, 15);
 	dead->listener = this;
@@ -314,6 +325,14 @@ update_status ModuleSceneIntro::Update()
 			App->physics->l_kicker->body->ApplyForce({ -10, -80 }, { 0, 0 }, true);
 		}
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN))
+	{
+		App->audio->PlayFx(kicker_sound);
+	}
+
+
+	//in case if death
 	if (App->player->lifes == 0)
 	{
 		App->player->createball = false;

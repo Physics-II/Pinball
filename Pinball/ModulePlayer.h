@@ -21,6 +21,9 @@ public:
 	bool dead = true;
 	bool createball = true;
 
+	uint ball_spawn_sound;
+
+
 public:
 
 	ModulePlayer(Application* app, bool start_enabled = true);
