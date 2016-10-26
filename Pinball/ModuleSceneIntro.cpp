@@ -29,6 +29,56 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	fairy.PushBack({119,234,25,40});
 	fairy.speed = 0.05;
 	fairyRect = { 39,234,13,39 };
+
+	num1.PushBack({459,25,26,22});
+	num1.PushBack({ 459,181,26,22 });
+	num1.PushBack({ 458,337,26,22 });
+	num1.speed = 0.05;
+
+	num2.PushBack({ 499,35,26,22 });
+	num2.PushBack({ 499,280,26,22 });
+	num2.PushBack({ 498,436,26,22 });
+	num2.speed = 0.05;
+
+	num3.PushBack({ 526,63,26,22 });
+	num3.PushBack({ 526,219,26,22 });
+	num3.PushBack({ 525,375,26,22 });
+	num3.speed = 0.05;
+
+	num4.PushBack({ 526,96,26,22 });
+	num4.PushBack({ 526,252,26,22 });
+	num4.PushBack({ 525,408,26,22 });
+	num4.speed = 0.05;
+
+	num5.PushBack({ 499,124,26,22 });
+	num5.PushBack({ 499,280,26,22 });
+	num5.PushBack({ 498,436,26,22 });
+	num5.speed = 0.05;
+
+	num6.PushBack({ 459,132,26,22 });
+	num6.PushBack({ 459,288,26,22 });
+	num6.PushBack({ 458,444,26,22 });
+	num6.speed = 0.05;
+
+	num7.PushBack({ 417,124,26,22 });
+	num7.PushBack({ 417,280,26,22 });
+	num7.PushBack({ 416,436,26,22 });
+	num7.speed = 0.05;
+
+	num8.PushBack({ 393,96,26,22 });
+	num8.PushBack({ 393,252,26,22 });
+	num8.PushBack({ 392,408,26,22 });
+	num8.speed = 0.05;
+
+	num9.PushBack({ 393,63,26,22 });
+	num9.PushBack({ 393,219,26,22 });
+	num9.PushBack({ 392,375,26,22 });
+	num9.speed = 0.05;
+
+	num10.PushBack({ 417,35,26,22 });
+	num10.PushBack({ 417,191,26,22 });
+	num10.PushBack({ 416,347,26,22 });
+	num10.speed = 0.05;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -129,8 +179,62 @@ update_status ModuleSceneIntro::Update()
 
 	App->renderer->Blit(map, 0, 0);
 	//DRAW ALL IN MAP
-		//frog
+	// animations in number
+	SDL_Rect number;
+	if (n1 == true)
+	{
+		number = animation_num1->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 171, 282, &number);
+	}
+	if (n2 == true)
+	{
+		number = animation_num2->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 211, 292, &number);
+	}
+	
+	if (n3 == true)
+	{
+		number = animation_num3->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 238, 320, &number);
+	}
+	if (n4 == true)
+	{
+		number = animation_num4->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 238, 353, &number);
+	}
+	if (n5 == true)
+	{
+		number = animation_num5->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 211, 381, &number);
+	}
+	if (n6 == true)
+	{
+		number = animation_num6->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 171, 389, &number);
+	}
+	if (n7 == true)
+	{
+		number = animation_num7->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 129, 381, &number);
+	}
+	if (n8 == true)
+	{
+		number = animation_num8->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 105, 353, &number);
+	}
+	if (n9 == true)
+	{
+		number = animation_num9->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 105, 321, &number);
+	}
+	if (n10 == true)
+	{
+		number = animation_num10->GetCurrentFrame();
+		App->renderer->Blit(basic_sprites, 129, 292, &number);
+	}
 
+		//frog
+	
 	SDL_Rect fr = animation_frog->GetCurrentFrame();
 	if (frog1t == true)
 	{
@@ -144,7 +248,6 @@ update_status ModuleSceneIntro::Update()
 	{
 		App->renderer->Blit(basic_sprites, 247, 251, &fr);
 	}
-	
 	
 
 	//fairy
@@ -232,20 +335,9 @@ update_status ModuleSceneIntro::Update()
 			fairy3->body->GetFixtureList()->SetFilterData(b);
 		}
 
-		if (frog1t == false && frog2t == false && frog3 == false)
-		{
-			score += 70;
-			frog1t = true, frog2t =true , frog3t = true;
-			bosscount++;
-		}
-		if (fairy1t == false && fairy2t == false && fairy3t == false)
-		{
-			score += 70;
-			fairy1t = true, fairy2t = true, fairy3t = true;
-			bosscount++;
-		}
+		
 	}
-
+	ScoreNumber(score);
 
 	// Prepare for raycast ------------------------------------------------------
 
@@ -386,4 +478,43 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			fairy3t = false;
 		}
 	}
+}
+void ModuleSceneIntro::ScoreNumber(int score)
+{
+	b2Filter b;
+	if (frog1t == false && frog2t == false && frog3t == false)
+	{
+		n1 = true;
+		score += 50;
+		frog1t = true, frog2t = true, frog3t = true;
+		b.categoryBits = ON;
+		b.maskBits = ON | OFF;
+		frog1->body->GetFixtureList()->SetFilterData(b);
+		frog2->body->GetFixtureList()->SetFilterData(b);
+		frog3->body->GetFixtureList()->SetFilterData(b);
+	}
+
+	if (fairy1t == false && fairy2t == false && fairy3t == false && n1 == true)
+	{
+		n2 = true;
+		fairy1t = true, fairy2t = true, fairy3t = true;
+		bosscount++;
+		b.categoryBits = ON;
+		b.maskBits = ON | OFF;
+		fairy1->body->GetFixtureList()->SetFilterData(b);
+		fairy2->body->GetFixtureList()->SetFilterData(b);
+		fairy3->body->GetFixtureList()->SetFilterData(b);
+	}
+
+	if (score > 500 && n2 == true )
+	{
+		n3 = true;
+	}
+
+	if (fairy1t == false && frog1t == false && n3 == true)
+	{
+		n4 = true;
+	}
+	
+
 }
