@@ -300,18 +300,18 @@ update_status ModuleSceneIntro::Update()
 
 	App->physics->springy->body->ApplyForce({ 0,-10 }, { 0, 0 }, true);
 
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 8));
-		circles.getLast()->data->listener = this;
-	}
+	//if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	//{
+	//	circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 8));
+	//	circles.getLast()->data->listener = this;
+	//}
 
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		App->physics->springy->body->ApplyForce({ 0,18 }, { 0, 0 }, true);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_UP)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
 	{
 		App->physics->springy->body->ApplyForce({ 0,-180 }, { 0, 0 }, true);
 	}
@@ -390,7 +390,7 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}
 	//print score
-	if( n10 == true ) //mision10
+	if( n10 == true ) //mision10 (last)
 	{
 		p2SString title("Score: %i Global Score: %i Mission: die, and kill the boss when it appears", score, globalScore);
 		App->window->SetTitle(title.GetString());
@@ -493,7 +493,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			lastTime = SDL_GetTicks();
 			changebody = true;
 			
-
+			App->audio->PlayFx(spaceship_sound);
 		}
 		if (bodyA->body == App->player->player->body && bodyB->body == setspaceship->body)
 		{
@@ -510,24 +510,33 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			App->player->lifes -= 1;
 
 		}
-		if (bodyA->body == App->player->player->body && bodyB->body == frog1->body)
+
+		if (bodyA->body == App->player->player->body && bodyB->body == frog1->body) //right frog hit
 		{
 			if (b.categoryBits == ON) score += 50;
 			b.categoryBits = DISABLE;
 			b.maskBits = DISABLE;
 			frog1->body->GetFixtureList()->SetFilterData(b);
 			frog1t=false;
+
+			App->audio->PlayFx(enemy_hit);
+			App->audio->PlayFx(enemy_kill);
 		}
-		if (bodyA->body == App->player->player->body && bodyB->body == frog2->body)
+
+		if (bodyA->body == App->player->player->body && bodyB->body == frog2->body) //middle frog hit
 		{
 			if (b.categoryBits == ON) score += 50;
 			b.categoryBits = DISABLE;
 			b.maskBits = DISABLE;
 			frog2->body->GetFixtureList()->SetFilterData(b);
 			frog2t = false;
+
+			App->audio->PlayFx(enemy_hit);
+			App->audio->PlayFx(enemy_kill);
 			
 		}
-		if (bodyA->body == App->player->player->body && bodyB->body == frog3->body)
+
+		if (bodyA->body == App->player->player->body && bodyB->body == frog3->body) //left frog hit
 		{
 			if (b.categoryBits == ON) score += 50;
 			b.categoryBits = DISABLE;
@@ -535,7 +544,11 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			b.maskBits = DISABLE;
 			frog3->body->GetFixtureList()->SetFilterData(b);
 			frog3t = false;
+
+			App->audio->PlayFx(enemy_hit);
+			App->audio->PlayFx(enemy_kill);
 		}
+
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy1->body)
 		{
 			if (b.categoryBits == ON) score += 30;
@@ -543,7 +556,11 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			b.maskBits = DISABLE;
 			fairy1->body->GetFixtureList()->SetFilterData(b);
 			fairy1t = false;
+
+			App->audio->PlayFx(enemy_hit);
+			App->audio->PlayFx(enemy_kill);
 		}
+
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy2->body)
 		{
 			if (b.categoryBits == ON) score += 30;
@@ -551,7 +568,11 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			b.maskBits = DISABLE;
 			fairy2->body->GetFixtureList()->SetFilterData(b);
 			fairy2t = false;
+
+			App->audio->PlayFx(enemy_hit);
+			App->audio->PlayFx(enemy_kill);
 		}
+
 		if (bodyA->body == App->player->player->body && bodyB->body == fairy3->body)
 		{
 			if (b.categoryBits == ON) score += 30;
@@ -559,6 +580,9 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			b.maskBits = DISABLE;
 			fairy3->body->GetFixtureList()->SetFilterData(b);
 			fairy3t = false;
+
+			App->audio->PlayFx(enemy_hit);
+			App->audio->PlayFx(enemy_kill);
 		}
 	}
 }
