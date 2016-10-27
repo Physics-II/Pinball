@@ -344,10 +344,12 @@ update_status ModuleSceneIntro::Update()
 
 
 	//in case of death
-	if (App->player->lifes == 0)
+	if ((App->player->lifes == 3 || App->player->lifes == 2 || App->player->lifes == 1 || App->player->lifes == 0) || (nboss ==true || n1 == true))
 	{
-		App->player->createball = false;
-
+		if (App->player->lifes == 0)
+		{
+			App->player->createball = false;
+		}
 		if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 		{
 			App->player->lifes = 3;
@@ -400,7 +402,7 @@ update_status ModuleSceneIntro::Update()
 	
 	if (victory == true && n10==true)
 	{
-		App->player->lifes = 1;
+		
 		App->audio->PlayFx(win_sound);
 		p2SString title("YOU WIN!!! Press B to play again~ , Score: %i Global Score: %i", score, globalScore);
 		App->window->SetTitle(title.GetString());
@@ -598,13 +600,13 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		if (bodyA->body == App->player->player->body && bodyB->body == App->physics->triangle_left->body)
 		{
-			App->player->player->body->ApplyForceToCenter({ 20, -150 }, true);
+			App->player->player->body->ApplyForceToCenter({ 20, -100 }, true);
 			App->audio->PlayFx(triangle_sound);
 		}
 
 		if (bodyA->body == App->player->player->body && bodyB->body == App->physics->triangle_right->body)
 		{
-			App->player->player->body->ApplyForceToCenter({ 20, -150 }, true);
+			App->player->player->body->ApplyForceToCenter({ 20, -100 }, true);
 			App->audio->PlayFx(triangle_sound);
 		}
 

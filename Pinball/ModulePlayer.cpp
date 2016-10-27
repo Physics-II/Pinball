@@ -61,6 +61,7 @@ update_status ModulePlayer::Update()
 	int playerPositionX, playerPositionY;
 	player->GetPosition(playerPositionX,playerPositionY);
 	App->renderer->Blit(graphics, playerPositionX, playerPositionY, NULL, 1.0f, player->GetRotation());
+
 	for (uint i = 0, j = 0; i < lifes; i++, j+=22)
 	{
 		App->renderer->Blit(graphics,(390+j),220);
