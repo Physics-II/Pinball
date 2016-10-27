@@ -352,6 +352,7 @@ update_status ModuleSceneIntro::Update()
 		}
 		if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 		{
+			App->player->player->body->DestroyFixture(App->player->player->body->GetFixtureList());
 			App->player->lifes = 3;
 			App->player->createball = true;
 			frog1t = true, frog2t = true, frog3t = true;
@@ -516,9 +517,10 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		if (bodyA->body == App->player->player->body && bodyB->body == dead->body)
 		{
-			
+			 App->player->player->body->DestroyFixture(App->player->player->body->GetFixtureList());
 			App->player->createball = true;
 			App->player->lifes -= 1;
+			
 
 		}
 
